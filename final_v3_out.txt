@@ -1,0 +1,4 @@
+﻿motor {"seeds": 5, "w_fs": 1.0, "large_loss_load": 1.0, "iters": {"tweedie": null, "freq": 1218, "sev": 262}, "pred_cost_per_expo_2025": 434.8, "hist_developed_cost_per_expo": {"2021": 417.44, "2022": 441.72, "2023": 436.88, "2024": 430.13}, "drift_flags": {}}
+buildings {"seeds": 5, "w_fs": 1.0, "large_loss_load": 1.0, "iters": {"tweedie": null, "freq": 480, "sev": 307}, "pred_cost_per_expo_2025": 319.18, "hist_developed_cost_per_expo": {"2021": 283.24, "2022": 308.61, "2023": 322.47, "2024": 366.69}, "drift_flags": {}}
+contents {"seeds": 5, "w_fs": 1.0, "large_loss_load": 1.0, "iters": {"tweedie": null, "freq": 567, "sev": 272}, "pred_cost_per_expo_2025": 88.55, "hist_developed_cost_per_expo": {"2021": 75.91, "2022": 77.92, "2023": 86.04, "2024": 88.46}, "drift_flags": {}}
+wrote submission_final.csv rows=626639 mean=236.50

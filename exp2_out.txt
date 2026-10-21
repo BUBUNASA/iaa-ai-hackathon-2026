@@ -1,0 +1,27 @@
+﻿
+===== motor categorical cardinality: {'make_model': 300, 'occupation': 20, 'region': 12, 'energy_rating': 7, 'body_type': 5, 'credit_band': 5}
+motor      base         val=2023 D2=0.0167 A/E=1.042 iters=266 feats=69
+motor      base         val=2024 D2=0.0558 A/E=0.862 iters=177 feats=69
+motor      reg          val=2023 D2=0.0477 A/E=1.016 iters=656 feats=69
+motor      reg          val=2024 D2=0.0608 A/E=0.856 iters=569 feats=69
+motor      reg_drop_hi  val=2023 D2=0.0485 A/E=1.061 iters=847 feats=68
+motor      reg_drop_hi  val=2024 D2=0.0688 A/E=0.879 iters=437 feats=68
+high-card cols dropped: ['make_model']
+
+===== buildings categorical cardinality: {'occupation': 20, 'region': 12, 'construction_type': 11, 'energy_rating': 7, 'credit_band': 5, 'soil_type': 5}
+buildings  base         val=2023 D2=0.0707 A/E=1.140 iters=108 feats=57
+buildings  base         val=2024 D2=0.0777 A/E=1.086 iters=118 feats=57
+buildings  reg          val=2023 D2=0.0772 A/E=1.102 iters=254 feats=57
+buildings  reg          val=2024 D2=0.0845 A/E=1.058 iters=274 feats=57
+buildings  reg_drop_hi  val=2023 D2=0.0772 A/E=1.102 iters=254 feats=57
+buildings  reg_drop_hi  val=2024 D2=0.0845 A/E=1.058 iters=274 feats=57
+high-card cols dropped: []
+
+===== contents categorical cardinality: {'occupation': 20, 'region': 12, 'energy_rating': 7, 'credit_band': 5, 'soil_type': 5, 'marital_status': 4}
+contents   base         val=2023 D2=0.0485 A/E=1.112 iters=124 feats=58
+contents   base         val=2024 D2=0.0564 A/E=1.120 iters=180 feats=58
+contents   reg          val=2023 D2=0.0538 A/E=1.098 iters=201 feats=58
+contents   reg          val=2024 D2=0.0596 A/E=1.100 iters=419 feats=58
+contents   reg_drop_hi  val=2023 D2=0.0538 A/E=1.098 iters=201 feats=58
+contents   reg_drop_hi  val=2024 D2=0.0596 A/E=1.100 iters=419 feats=58
+high-card cols dropped: []

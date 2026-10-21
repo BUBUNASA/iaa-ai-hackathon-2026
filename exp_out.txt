@@ -1,0 +1,81 @@
+﻿
+===== motor train=(979968, 98) test=(254986, 92)
+motor      all           val=2023 D2=0.0224 A/E=1.032 iters=262 feats=69
+motor      all           val=2024 D2=0.0554 A/E=0.854 iters=233 feats=69
+motor      no_history    val=2023 D2=0.0257 A/E=1.068 iters=222 feats=61
+motor      no_history    val=2024 D2=0.0517 A/E=0.872 iters=314 feats=61
+motor      no_weather    val=2023 D2=0.0344 A/E=1.027 iters=185 feats=62
+motor      no_weather    val=2024 D2=0.0549 A/E=0.852 iters=259 feats=62
+motor      with_pricing  val=2023 D2=0.0186 A/E=1.051 iters=453 feats=71
+motor      with_pricing  val=2024 D2=0.0570 A/E=0.841 iters=274 feats=71
+motor      with_noise    val=2023 D2=0.0147 A/E=1.040 iters=101 feats=78
+motor      with_noise    val=2024 D2=0.0476 A/E=0.852 iters=120 feats=78
+make_model          0.570
+ncb_years           0.097
+occupation          0.061
+driver_age          0.037
+region              0.031
+annual_mileage      0.025
+years_licensed      0.023
+cover_type          0.012
+vehicle_age         0.012
+prior_claims_5y     0.011
+age_at_start        0.010
+voluntary_excess    0.010
+hist_pol_freq       0.009
+telematics_score    0.007
+property_age        0.005
+
+===== buildings train=(707726, 85) test=(184155, 79)
+buildings  all           val=2023 D2=0.0707 A/E=1.140 iters=108 feats=57
+buildings  all           val=2024 D2=0.0777 A/E=1.086 iters=118 feats=57
+buildings  no_history    val=2023 D2=0.0710 A/E=1.151 iters=103 feats=49
+buildings  no_history    val=2024 D2=0.0757 A/E=1.097 iters=138 feats=49
+buildings  no_weather    val=2023 D2=0.0685 A/E=1.154 iters=113 feats=50
+buildings  no_weather    val=2024 D2=0.0768 A/E=1.113 iters=136 feats=50
+buildings  with_pricing  val=2023 D2=0.0759 A/E=1.098 iters=78 feats=59
+buildings  with_pricing  val=2024 D2=0.0841 A/E=1.040 iters=120 feats=59
+buildings  with_noise    val=2023 D2=0.0319 A/E=1.227 iters=22 feats=65
+buildings  with_noise    val=2024 D2=0.0427 A/E=1.247 iters=33 feats=65
+flood_zone              0.166
+occupation              0.127
+sum_insured             0.086
+elevation_m             0.086
+region                  0.060
+distance_to_river_km    0.057
+property_age            0.035
+energy_rating           0.032
+construction_type       0.026
+rainfall_mm             0.022
+dry_summer_index        0.022
+age_at_start            0.020
+wildfire_index          0.019
+days_unoccupied         0.015
+prior_claims_5y         0.015
+
+===== contents train=(721617, 86) test=(187498, 80)
+contents   all           val=2023 D2=0.0485 A/E=1.112 iters=124 feats=58
+contents   all           val=2024 D2=0.0564 A/E=1.120 iters=180 feats=58
+contents   no_history    val=2023 D2=0.0448 A/E=1.161 iters=114 feats=50
+contents   no_history    val=2024 D2=0.0517 A/E=1.149 iters=183 feats=50
+contents   no_weather    val=2023 D2=0.0532 A/E=1.053 iters=137 feats=51
+contents   no_weather    val=2024 D2=0.0613 A/E=1.076 iters=174 feats=51
+contents   with_pricing  val=2023 D2=0.0535 A/E=1.093 iters=101 feats=60
+contents   with_pricing  val=2024 D2=0.0597 A/E=1.090 iters=147 feats=60
+contents   with_noise    val=2023 D2=0.0072 A/E=1.200 iters=28 feats=66
+contents   with_noise    val=2024 D2=0.0235 A/E=1.170 iters=40 feats=66
+occupation              0.128
+flood_zone              0.113
+sum_insured             0.112
+elevation_m             0.105
+region                  0.062
+distance_to_river_km    0.042
+age_at_start            0.032
+energy_rating           0.025
+dry_summer_index        0.022
+property_age            0.020
+urban_density           0.019
+years_at_address        0.019
+voluntary_excess        0.017
+prior_claims_5y         0.017
+rainfall_mm             0.017

@@ -1,0 +1,131 @@
+﻿
+== customers (545240, 18)
+
+nulls>0: {'occupation': 0.025, 'marital_status': 0.025, 'household_size': 0.025, 'years_at_address': 0.025, 'campaign_code': 0.512}
+
+== addresses (575983, 16)
+
+nulls>0: {'flood_zone': 0.029, 'distance_to_river_km': 0.025, 'soil_type': 0.025, 'roof_type': 0.025, 'energy_rating': 0.025}
+
+== weather (2879915, 9)
+
+nulls>0: {}
+
+== policies_motor (979968, 39)
+{'row_id': 'object', 'policy_id': 'object', 'customer_id': 'object', 'address_id': 'object', 'period_start': 'object', 'period_end': 'object', 'exposure': 'float64', 'driver_age': 'int64', 'years_licensed': 'int64', 'ncb_years': 'int64', 'vehicle_value_group': 'int64', 'vehicle_age': 'float64', 'make_model': 'object', 'engine_size_cc': 'float64', 'body_type': 'object', 'transmission': 'object', 'seats': 'int64', 'vehicle_colour': 'object', 'fuel_type': 'object', 'driver_assist': 'bool', 'cover_type': 'object', 'annual_mileage': 'float64', 'overnight_parking': 'object', 'vehicle_use': 'object', 'named_young_driver': 'bool', 'telematics_opt_in': 'bool', 'telematics_score': 'float64', 'voluntary_excess': 'int64', 'compulsory_excess': 'int64', 'channel': 'object', 'payment_method': 'object', 'missed_payments_12m': 'int64', 'new_business': 'bool', 'renewal_count': 'int64', 'days_quote_to_inception': 'int64', 'discount_applied': 'float64', 'written_premium': 'float64', 'customer_service_contacts': 'int64', 'renewal_decision': 'object'}
+nulls>0: {'vehicle_age': 0.025, 'engine_size_cc': 0.025, 'annual_mileage': 0.025, 'overnight_parking': 0.025, 'telematics_score': 0.876}
+
+== policies_buildings (707726, 27)
+
+nulls>0: {'days_unoccupied': 0.025, 'smoke_alarms': 0.025}
+
+== policies_contents (721617, 28)
+
+nulls>0: {'security_level': 0.025, 'high_value_items': 0.025}
+
+== claims (163150, 12)
+{'claim_id': 'object', 'policy_id': 'object', 'line': 'object', 'peril': 'object', 'loss_date': 'object', 'report_date': 'object', 'status': 'object', 'paid_to_date': 'float64', 'incurred_to_date': 'float64', 'recoveries': 'float64', 'repairer_id': 'object', 'third_party_id': 'object'}
+nulls>0: {'repairer_id': 0.493, 'third_party_id': 0.746}
+
+== test_motor (254986, 38)
+
+nulls>0: {'vehicle_age': 0.025, 'engine_size_cc': 0.025, 'annual_mileage': 0.025, 'overnight_parking': 0.025, 'telematics_score': 0.867}
+
+== test_buildings (184155, 26)
+
+nulls>0: {'days_unoccupied': 0.025, 'smoke_alarms': 0.025}
+
+== test_contents (187498, 27)
+
+nulls>0: {'security_level': 0.025, 'high_value_items': 0.025}
+
+== sample_submission (626639, 2)
+
+nulls>0: {}
+
+== claims head
+                            0           1                 2
+claim_id          CL00485349  CL88548306        CL99833897
+policy_id          M70353248   M96085125         M38422896
+line                   motor       motor             motor
+peril             glass_hail  own_damage  third_party_prop
+loss_date         2021-08-21  2024-05-16        2021-01-14
+report_date       2021-09-01  2024-05-20        2021-01-21
+status                closed        open            closed
+paid_to_date          1894.9       90.63             24.63
+incurred_to_date      1894.9      602.35             24.63
+recoveries               0.0         0.0               0.0
+repairer_id             None      RP0727            RP0635
+third_party_id          None        None         TP9574811
+                                 n      inc       p99
+line      peril                                      
+buildings accidental_damage   3848   1218.0    5691.0
+          escape_of_water    10137   5733.0   29873.0
+          fire                1115  51685.0  314187.0
+          flood               2232  31359.0  161975.0
+          storm               7816   3454.0   16382.0
+          subsidence          1294  23786.0  115210.0
+contents  accidental_damage   9208    773.0    4462.0
+          escape_of_water     5407   2740.0   14713.0
+          flood               1624   9992.0   47533.0
+          theft               7863   3557.0   19368.0
+motor     bodily_injury       7583  21582.0  134907.0
+          glass_hail         15732   1086.0    5079.0
+          own_damage         48964   2374.0   12006.0
+          theft               6501   6207.0   31799.0
+          third_party_prop   33826   3608.0   17053.0
+status
+closed        151292
+open           10147
+repudiated      1711
+Name: count, dtype: int64
+ly         2020   2021   2022   2023   2024
+line                                       
+buildings    46   6204   6797   6824   6571
+contents     30   5650   6105   6242   6075
+motor       198  27745  30102  28390  26171
+report lag days by line:
+               count  mean   std  min  25%  50%   75%     max
+line                                                        
+buildings   26442.0  19.2  45.8  1.0  4.0  9.0  18.0   759.0
+contents    24102.0  12.1  33.7  1.0  3.0  6.0  13.0   565.0
+motor      112606.0  24.6  62.8  1.0  4.0  9.0  20.0  1361.0
+incurred stats:
+ count    1.631500e+05
+mean     4.742453e+03
+std      3.203242e+04
+min      0.000000e+00
+25%      6.643800e+02
+50%      1.859755e+03
+75%      4.564547e+03
+max      1.189428e+07
+Name: incurred_to_date, dtype: float64 
+recoveries>0: 0.09056696291756053 
+paid>incurred: 0.0
+
+== motor: train (979968, 39) test (254986, 38)
+exposure by year: {2021: {'size': 216008, 'sum': 253732.0}, 2022: {'size': 254685, 'sum': 264889.0}, 2023: {'size': 254577, 'sum': 275263.0}, 2024: {'size': 254698, 'sum': 264626.0}}
+test exposure: {'count': 254986.0, 'mean': 0.784, 'std': 0.32, 'min': 0.003, '25%': 0.575, '50%': 1.0, '75%': 1.0, 'max': 1.0}
+test cols missing vs train: ['renewal_decision']
+renewal_decision: {'renewed': 793414, 'mid_term_change': 72521, 'lapsed_by_customer': 71662, 'cancelled': 35976, 'declined_by_insurer': 6395}
+test policies seen in train: 0.848 | test customers seen: 0.848
+dup row_id: 0 | exposure<=0: 0
+
+== buildings: train (707726, 27) test (184155, 26)
+exposure by year: {2021: {'size': 155729, 'sum': 190835.0}, 2022: {'size': 183864, 'sum': 199381.0}, 2023: {'size': 184132, 'sum': 201769.0}, 2024: {'size': 184001, 'sum': 197418.0}}
+test exposure: {'count': 184155.0, 'mean': 0.816, 'std': 0.302, 'min': 0.003, '25%': 0.685, '50%': 1.0, '75%': 1.0, 'max': 1.0}
+test cols missing vs train: ['renewal_decision']
+renewal_decision: {'renewed': 596186, 'lapsed_by_customer': 53633, 'mid_term_change': 27147, 'cancelled': 26919, 'declined_by_insurer': 3841}
+test policies seen in train: 0.849 | test customers seen: 0.849
+dup row_id: 0 | exposure<=0: 0
+
+== contents: train (721617, 28) test (187498, 27)
+exposure by year: {2021: {'size': 158848, 'sum': 195900.0}, 2022: {'size': 187632, 'sum': 205871.0}, 2023: {'size': 187646, 'sum': 204308.0}, 2024: {'size': 187491, 'sum': 204644.0}}
+test exposure: {'count': 187498.0, 'mean': 0.801, 'std': 0.311, 'min': 0.003, '25%': 0.63, '50%': 1.0, '75%': 1.0, 'max': 1.0}
+test cols missing vs train: ['renewal_decision']
+renewal_decision: {'renewed': 599110, 'lapsed_by_customer': 54087, 'mid_term_change': 40481, 'cancelled': 27041, 'declined_by_insurer': 898}
+test policies seen in train: 0.848 | test customers seen: 0.848
+dup row_id: 0 | exposure<=0: 0
+
+sample_submission (626639, 2) ids match test: True {'count': 626639.0, 'mean': 0.0, 'std': 0.0, 'min': 0.0, '25%': 0.0, '50%': 0.0, '75%': 0.0, 'max': 0.0}
+weather years: [np.int64(2021), np.int64(2022), np.int64(2023), np.int64(2024), np.int64(2025)]

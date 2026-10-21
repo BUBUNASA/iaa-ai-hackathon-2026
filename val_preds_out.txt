@@ -1,0 +1,6 @@
+﻿motor 2023 iters tw=662 freq=828 sev=169
+motor 2024 iters tw=530 freq=1218 sev=262
+buildings 2023 iters tw=193 freq=447 sev=224
+buildings 2024 iters tw=291 freq=480 sev=307
+contents 2023 iters tw=242 freq=416 sev=224
+contents 2024 iters tw=306 freq=567 sev=272

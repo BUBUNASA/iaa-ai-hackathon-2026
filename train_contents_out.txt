@@ -1,0 +1,14 @@
+﻿[contents] built in 49s train=(721617, 86) test=(187498, 80) cap=45367
+[contents] D2 uncapped=0.6493 capped=0.6500 A/E=1.029 iters=288 feats=59 (84s)
+customer_service_contacts    0.751
+occupation                   0.041
+sum_insured                  0.022
+flood_zone                   0.020
+region                       0.020
+elevation_m                  0.016
+distance_to_river_km         0.010
+energy_rating                0.008
+start_doy                    0.008
+age_at_start                 0.006
+rainfall_mm                  0.006
+property_age                 0.006

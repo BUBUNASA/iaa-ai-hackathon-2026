@@ -1,0 +1,37 @@
+﻿claims net_incurred<0: 0 | recoveries>incurred: 0
+
+=== motor: claims 112606, unmatched 297 (0.26%), dup matches 0
+ unmatched loss years: {2020: 198, 2021: 34, 2022: 35, 2023: 30}
+ unmatched policy in policies: 1.0
+            expo        n          cost  open_n          prem   freq  cost_per_expo       sev  open_share  LR_proxy
+year                                                                                                               
+2021  253732.404  27711.0  1.058976e+08   321.0  1.161902e+08  0.109        417.360  3821.502       0.012     0.911
+2022  264888.585  30067.0  1.167232e+08   607.0  1.399614e+08  0.114        440.650  3882.103       0.020     0.834
+2023  275262.594  28360.0  1.173077e+08  1081.0  1.447479e+08  0.103        426.167  4136.379       0.038     0.810
+2024  264626.099  26171.0  9.066698e+07  5424.0  1.489414e+08  0.099        342.623  3464.406       0.207     0.609
+ zero-cost rows share: 0.8999 | top-0.1% rows share of total cost: 0.201 | max row cost: 11894277.0
+ written_premium vs exposure corr (premium annualised?): -0.002 | prem per expo mean: 1944.7
+
+=== buildings: claims 26442, unmatched 67 (0.25%), dup matches 0
+ unmatched loss years: {2020: 46, 2021: 9, 2022: 5, 2023: 7}
+ unmatched policy in policies: 1.0
+            expo       n         cost  open_n         prem   freq  cost_per_expo        sev  open_share  LR_proxy
+year                                                                                                             
+2021  190835.467  6195.0  54052834.19    17.0  46233270.44  0.032        283.243   8725.236       0.003     1.169
+2022  199380.607  6792.0  61529331.08    55.0  57774370.07  0.034        308.602   9059.089       0.008     1.065
+2023  201769.449  6817.0  64832471.23   198.0  60706176.41  0.034        321.320   9510.411       0.029     1.068
+2024  197418.404  6571.0  67353949.55  1620.0  63946482.83  0.033        341.174  10250.183       0.247     1.053
+ zero-cost rows share: 0.9642 | top-0.1% rows share of total cost: 0.324 | max row cost: 631246.0
+ written_premium vs exposure corr (premium annualised?): 0.002 | prem per expo mean: 920.8
+
+=== contents: claims 24102, unmatched 50 (0.21%), dup matches 0
+ unmatched loss years: {2020: 30, 2021: 5, 2022: 8, 2023: 7}
+ unmatched policy in policies: 1.0
+            expo       n         cost  open_n         prem   freq  cost_per_expo       sev  open_share  LR_proxy
+year                                                                                                            
+2021  195900.131  5645.0  14870108.25     0.0  19864972.62  0.029         75.907  2634.209       0.000     0.749
+2022  205870.651  6097.0  16040968.62     0.0  24713824.11  0.030         77.918  2630.961       0.000     0.649
+2023  204307.908  6235.0  17539466.93    18.0  26059827.89  0.031         85.848  2813.066       0.003     0.673
+2024  204643.879  6075.0  17516035.05   791.0  27456066.07  0.030         85.593  2883.298       0.130     0.638
+ zero-cost rows share: 0.9682 | top-0.1% rows share of total cost: 0.248 | max row cost: 111900.0
+ written_premium vs exposure corr (premium annualised?): -0.001 | prem per expo mean: 429.5

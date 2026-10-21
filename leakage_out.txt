@@ -1,0 +1,48 @@
+﻿
+===== motor
+                             rows        expo        n          cost   freq  cost_per_expo
+customer_service_contacts                                                                 
+0                          599760  602862.540    133.0  4.496812e+05  0.000          0.746
+1                          233422  278920.090  12701.0  4.531950e+07  0.046        162.482
+2                           75836   93802.547  27250.0  9.840294e+07  0.291       1049.043
+3                           33006   39598.143  25527.0  9.446529e+07  0.645       2385.599
+4                           18881   20579.605  20025.0  7.363856e+07  0.973       3578.230
+5                            8932   10651.040   9740.0  3.580329e+07  0.914       3361.483
+6                           10131   12095.716  16933.0  6.107170e+07  1.400       5049.035
+contacts mean | test vs train by year: {2021: 0.753, 2022: 0.685, 2023: 0.672, 2024: 0.671} test: 0.401
+corr(contacts, claim_count same row): 0.747 | corr(contacts, hist_pol_n): 0.076
+  drop=none: D2=0.6381 A/E=0.834 iters=434
+  drop=['customer_service_contacts']: D2=0.0554 A/E=0.854 iters=233
+  drop=['customer_service_contacts', 'missed_payments_12m', 'days_quote_to_inception', 'discount_applied', 'written_premium']: D2=0.0573 A/E=0.867 iters=156
+
+===== buildings
+                             rows        expo       n          cost   freq  cost_per_expo
+customer_service_contacts                                                                
+0                          455471  482788.852    48.0  4.813880e+05  0.000          0.997
+1                          181608  218165.284  3450.0  3.166798e+07  0.016        145.156
+2                           47908   59960.704  6970.0  6.818400e+07  0.116       1137.145
+3                           13315   16956.955  6760.0  6.081265e+07  0.399       3586.295
+4                            5397    6277.892  4701.0  4.277287e+07  0.749       6813.254
+5                            2362    3658.242  2340.0  2.099050e+07  0.640       5737.865
+6                            1665    1595.998  2106.0  2.097872e+07  1.320      13144.578
+contacts mean | test vs train by year: {2021: 0.553, 2022: 0.499, 2023: 0.497, 2024: 0.503} test: 0.402
+corr(contacts, claim_count same row): 0.573 | corr(contacts, hist_pol_n): 0.019
+  drop=none: D2=0.6505 A/E=1.101 iters=221
+  drop=['customer_service_contacts']: D2=0.0777 A/E=1.086 iters=118
+  drop=['customer_service_contacts', 'missed_payments_12m', 'days_quote_to_inception', 'discount_applied', 'written_premium']: D2=0.0776 A/E=1.094 iters=119
+
+===== contents
+                             rows        expo       n          cost   freq  cost_per_expo
+customer_service_contacts                                                                
+0                          469780  494920.255    55.0  1.783486e+05  0.000          0.360
+1                          182802  224927.138  3135.0  8.138510e+06  0.014         36.183
+2                           47551   61834.213  6423.0  1.776713e+07  0.104        287.335
+3                           12732   17195.084  6081.0  1.666240e+07  0.354        969.021
+4                            5091    6986.022  4341.0  1.193000e+07  0.621       1707.696
+5                            2159    3055.340  2147.0  5.716472e+06  0.703       1870.977
+6                            1502    1804.517  1870.0  5.182332e+06  1.036       2871.866
+contacts mean | test vs train by year: {2021: 0.532, 2022: 0.485, 2023: 0.482, 2024: 0.488} test: 0.401
+corr(contacts, claim_count same row): 0.558 | corr(contacts, hist_pol_n): 0.016
+  drop=none: D2=0.6493 A/E=1.029 iters=288
+  drop=['customer_service_contacts']: D2=0.0564 A/E=1.120 iters=180
+  drop=['customer_service_contacts', 'missed_payments_12m', 'days_quote_to_inception', 'discount_applied', 'written_premium']: D2=0.0548 A/E=1.140 iters=130

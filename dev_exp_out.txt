@@ -1,0 +1,36 @@
+﻿
+===== motor: reported fraction at age 30d/90d/180d/365d/730d = 0.576/0.742/0.841/0.939/0.994
+      mean_f  reported_cost/expo  developed_cost/expo
+year                                                 
+2021   1.000             417.360              417.444
+2022   0.998             440.650              441.719
+2023   0.975             426.167              436.877
+2024   0.797             342.623              430.129
+motor      val=2024 dev=False D2(reported)=0.0694 A/E=0.877 iters=401 ultimate_rate_pred=390.7
+motor      val=2024 dev=True  D2(reported)=0.0536 A/E=1.068 iters=502 ultimate_rate_pred=404.3
+motor      val=2023 dev=False D2(reported)=0.0536 A/E=1.011 iters=475 ultimate_rate_pred=421.4
+motor      val=2023 dev=True  D2(reported)=0.0509 A/E=1.033 iters=475 ultimate_rate_pred=423.1
+
+===== buildings: reported fraction at age 30d/90d/180d/365d/730d = 0.843/0.931/0.964/0.988/1.000
+      mean_f  reported_cost/expo  developed_cost/expo
+year                                                 
+2021   1.000             283.243              283.243
+2022   1.000             308.602              308.610
+2023   0.996             321.320              322.468
+2024   0.930             341.174              366.693
+buildings  val=2024 dev=False D2(reported)=0.0847 A/E=1.064 iters=306 ultimate_rate_pred=320.5
+buildings  val=2024 dev=True  D2(reported)=0.0775 A/E=1.154 iters=218 ultimate_rate_pred=317.6
+buildings  val=2023 dev=False D2(reported)=0.0786 A/E=1.079 iters=244 ultimate_rate_pred=297.9
+buildings  val=2023 dev=True  D2(reported)=0.0782 A/E=1.082 iters=244 ultimate_rate_pred=297.9
+
+===== contents: reported fraction at age 30d/90d/180d/365d/730d = 0.940/0.991/0.992/0.992/1.000
+      mean_f  reported_cost/expo  developed_cost/expo
+year                                                 
+2021   1.000              75.907               75.907
+2022   1.000              77.918               77.918
+2023   0.998              85.848               86.037
+2024   0.968              85.593               88.457
+contents   val=2024 dev=False D2(reported)=0.0719 A/E=0.963 iters=308 ultimate_rate_pred=88.9
+contents   val=2024 dev=True  D2(reported)=0.0706 A/E=0.987 iters=310 ultimate_rate_pred=89.6
+contents   val=2023 dev=False D2(reported)=0.0538 A/E=1.098 iters=201 ultimate_rate_pred=78.2
+contents   val=2023 dev=True  D2(reported)=0.0535 A/E=1.100 iters=201 ultimate_rate_pred=78.2

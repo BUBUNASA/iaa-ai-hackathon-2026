@@ -1,0 +1,12 @@
+data/
+outputs/*.csv
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+# obsolete generic baseline (superseded by the pipeline in final_v3.py)
+claimcost.py
+run.py
+make_demo_data.py
+demo_*.csv
+outputs_demo/

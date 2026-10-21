@@ -1,0 +1,4 @@
+﻿motor {"rounds": 518, "val2024_D2_reported_basis": 0.0524, "val2024_AE_reported": 1.083, "mean_reported_fraction_2024": 0.797, "pred_cost_per_expo_2025": 396.1}
+buildings {"rounds": 308, "val2024_D2_reported_basis": 0.0773, "val2024_AE_reported": 1.144, "mean_reported_fraction_2024": 0.93, "pred_cost_per_expo_2025": 312.9}
+contents {"rounds": 481, "val2024_D2_reported_basis": 0.0563, "val2024_AE_reported": 1.132, "mean_reported_fraction_2024": 0.968, "pred_cost_per_expo_2025": 84.75}
+wrote submission_dev.csv rows=626639 mean=221.73
