@@ -1,7 +1,7 @@
 # Risk-premium modelling for a motor / buildings / contents book: leak-free, claim-developed, governed
 
 **Team:** _[team name / members]_  **Competition:** IAA AI-Assisted Hackathon 2026, Part 1  **Repo:** this repository (`README.md` to reproduce)
-**Public leaderboard (Tweedie D2, higher is better):** v1 baseline 0.0859 -> v2 + claim development 0.0955 -> **v3 final 0.1039**
+**Public leaderboard (Tweedie D2, higher is better):** v1 baseline 0.0859 -> v2 + claim development 0.0955 -> v3 freq x sev + bagging 0.1039 -> **v4 final (+ cost trend) 0.1119**
 
 ## 1. Problem and approach in one paragraph
 For each 2025 policy row we predict expected ultimate claim cost (net of excess and recoveries, repudiated excluded), i.e. the risk premium
@@ -44,8 +44,11 @@ Strong regularisation (15 leaves, 1000 minimum rows per leaf, L2 = 100, categori
 
 Calibration (actual / predicted, reported basis): motor 0.99-1.00 on both holdouts. Buildings 1.08 / 1.12 and contents 1.07 / 1.08, i.e. these lines are **under-predicted by 7-12%**
 on both holdouts. This is not a cap artefact (the cap load is only about 1.00-1.01). Developed buildings cost per exposure rose 283 -> 309 -> 322 -> 367 over 2021-24, so the likeliest
-cause is unmodelled cost trend. We deliberately did **not** apply a level scalar tuned to the leaderboard; a trend factor is listed under limitations and should be validated on a
-forward-looking holdout before use.
+cause is unmodelled cost trend. We deliberately did **not** apply a level scalar tuned to the leaderboard. Instead we **validated a cost-trend factor on the holdouts first** (`trend_eval.py`): a log-linear
+frequency and severity trend estimated on years before the holdout only. It raised D2 in all four buildings/contents holdout cases (buildings 0.0785 -> 0.0865 and 0.0850 -> 0.0937; contents 0.0620 -> 0.0651 and 0.0635 -> 0.0710 at 0.75 damping)
+and brought A/E to 0.98-1.04. Motor's trend is near zero and changes sign between holdouts (a full trend would have hurt the 2024 holdout), so its 2025 factor is 0.996, i.e. effectively none.
+We damp the trend by 0.75 because full trend slightly over-corrected buildings (A/E 0.95) and half under-corrected it (1.05). The 2025 factors are buildings 1.163 and contents 1.105. Public leaderboard: 0.1039 -> 0.1119.
+Caveat: 2025 is further from the training mean (about 2.7 years) than the holdouts were (1.5-2 years), so the extrapolation is the least certain assumption in the model.
 
 ## 6. AI-assisted workflow and human review (effective AI use)
 | Stage | AI contribution | Human review / verification |
@@ -61,10 +64,10 @@ forward-looking holdout before use.
 `final_v3.py` refuses to write a submission unless: no feature is flagged by the leak screen; the submission has exactly the sample row ids, unique, finite, non-negative;
 and predicted 2025 cost per exposure lies within +/-25% of the developed historical range for each line. Drift flags are written to `outputs/report_final.json`
 (none above threshold in the final run). 20 automated tests cover forbidden columns, leak and drift screens, time-split integrity, the reporting curve (valid, monotone CDF), and submission validity.
-Final 2025 predicted cost per exposure: motor 435, buildings 319, contents 88.6 (developed history: motor 417-442, buildings 283-367, contents 76-88).
+Final 2025 predicted cost per exposure: motor 433, buildings 371, contents 97.9 (developed history: motor 417-442, buildings 283-367, contents 76-88). Buildings and contents sit above the historical range by design (trend); the sanity band still passes.
 
 ## 8. Limitations and next steps
-1. **Trend**: validate an explicit cost-trend adjustment for buildings and contents (A/E 1.08-1.12) on a forward-looking split.
+1. **Trend**: the factor is a four-point extrapolation (4 years of history); the damping of 0.75 is a judgement. Consider external inflation indices in Week 2.
 2. **Tail**: no extreme-value treatment; the largest motor row is 11.9M. The cap protects training but 2025 large losses remain irreducible noise for D2.
 3. **Development tail**: reporting lag is modelled, case-reserve development of open claims is not (open claims average 6k incurred vs 1.2k paid for 2024 motor).
 4. **Public vs final score**: the public leaderboard uses part of the test set; we selected on the cross-year holdouts plus the leaderboard, so some optimism is likely.

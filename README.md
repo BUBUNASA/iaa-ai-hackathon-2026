@@ -1,7 +1,7 @@
 # IAA AI-Assisted Hackathon 2026 - Part 1: claim-cost (risk-premium) model
 
 Predicts the expected ultimate claim cost of every 2025 motor, buildings and contents policy row
-(metric: Tweedie D2, power 1.5). Public leaderboard: v1 0.0859 -> v2 (claim development) 0.0955.
+(metric: Tweedie D2, power 1.5). Public leaderboard: v1 0.0859 -> v2 (claim development) 0.0955 -> v3 (freq x sev, bagging) 0.1039 -> v4 (+ validated cost trend) 0.1119.
 
 ## Approach
 | Step | What | Why (evidence) |
