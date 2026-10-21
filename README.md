@@ -11,12 +11,13 @@ Predicts the expected ultimate claim cost of every 2025 motor, buildings and con
 | Claim development | Chain-ladder reporting-lag CDF per peril; training exposure x reported fraction | 2024 claims valued at 31-Dec-2024 are immature (motor ~80% reported); developed 2024 motor cost/exposure 430 vs 343 raw. LB +0.0096 |
 | Model | LightGBM Poisson frequency x Gamma severity, strong regularisation, 5-seed bagging | Beat 3-seed Tweedie pure-premium in 6/6 line x holdout cases (buildings 2023 only marginally; see `blend_eval_out.txt`). Seed bagging helped Tweedie in 4/6 cases (not yet measured for freq x sev) |
 | Governance | Automated leak, drift, format and sanity guardrails (`guardrails.py`, `tests/`) | Run before any submission is written |
+| Cost trend | Freq + severity log-linear trend from train years only (`trend.py`), damped x0.75, applied to all lines | Buildings/contents were 7-12% under-predicted on both holdouts. A trend estimated on pre-holdout years only improves D2 in 4/4 buildings/contents cases (A/E 0.98-1.04 at x0.75). Motor trend is ~0 and sign-unstable, so its 2025 factor is ~0.996 (`trend_eval_out.txt`) |
 
 Rejected ideas (all validated, see `*_out.txt`): vehicle `make_model` (300 levels; overfits), weather/history features (tiny, noisy),
 `written_premium`/`discount_applied` (risk under market change), an ad-hoc multiplicative level scalar (motor is calibrated, A/E 0.99-1.00; buildings/contents are 7-12% under-predicted on both holdouts but that tracks cost trend, not a cap/level artefact - see Open issues).
 
 ## Open issues
-- Buildings/contents hold-out A/E is 1.07-1.12 (under-prediction). Developed cost/exposure is rising year on year (buildings 283 -> 309 -> 322 -> 367), so the cause is probably an unmodelled trend; a trend factor should be validated before use, not tuned on the leaderboard.
+- Trend factor (buildings x1.16, contents x1.10 for 2025) extrapolates ~2.7 years from the pooled training mean, further than the holdouts (1.5-2 years). Damping x0.75 hedges this; it is a judgement made on holdout calibration, not on the leaderboard. Contents then sits about 12% above the 2024 developed level, the least certain part.
 
 ## Reproduce
 ```

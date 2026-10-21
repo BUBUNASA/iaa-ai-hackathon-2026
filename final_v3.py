@@ -18,6 +18,7 @@ from final import OUT
 from guardrails import drift_screen, leak_screen, prediction_sanity, validate_submission
 from models import SEEDS, fit_predict, select_cols
 from prep import LINES, read
+from trend import factor as trend_factor, yearly
 
 
 def main(a) -> None:
@@ -48,11 +49,13 @@ def main(a) -> None:
             sv, _ = fit_predict(train, test, cols, "sev", seeds=seeds, rounds=int(it_s * 1.15))
             rate += w_fs[ln] * fr * sv
         load = float(train["net_incurred"].sum() / train["net_capped"].sum()) if a.load == "cap" else 1.0
-        pred = rate * load * test["exposure"].to_numpy()
+        tf = trend_factor(yearly(train), 2025, "freqsev", a.trend)[0] if a.trend > 0 else 1.0
+        pred = rate * load * tf * test["exposure"].to_numpy()
         preds.append(pd.DataFrame({"row_id": test["row_id"].to_numpy(), "prediction": pred}))
         hist = train.groupby("year").apply(lambda g: g["net_incurred"].sum() / (g["exposure"] * g["dev_f"]).sum(), include_groups=False)
         report[ln] = {
             "seeds": len(seeds), "w_fs": w_fs[ln], "large_loss_load": round(load, 4),
+            "trend_damp": a.trend, "trend_factor": round(tf, 4),
             "iters": {"tweedie": it_tw, "freq": it_f, "sev": it_s},
             "pred_cost_per_expo_2025": round(float(pred.sum() / test["exposure"].sum()), 2),
             "hist_developed_cost_per_expo": {int(k): round(float(v), 2) for k, v in hist.items()},
@@ -76,5 +79,6 @@ if __name__ == "__main__":
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--w-fs", default="0.5", help="weight on freq x sev in the blend: a number or a JSON dict per line")
     ap.add_argument("--load", choices=["none", "cap"], default="none")
+    ap.add_argument("--trend", type=float, default=0.0, help="damping of the validated freq+sev cost-trend factor (0 = off)")
     ap.add_argument("--tag", default="final")
     main(ap.parse_args())

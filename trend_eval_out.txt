@@ -1,0 +1,95 @@
+﻿
+== motor yearly developed (capped) cost/exposure, freq, sev
+           cpe    freq        sev
+year                             
+2021  406.2341  0.1092  3718.8849
+2022  430.0217  0.1138  3779.2991
+2023  384.4701  0.1056  3640.1847
+2024  423.3077  0.1242  3409.4652
+
+== buildings yearly developed (capped) cost/exposure, freq, sev
+           cpe    freq         sev
+year                              
+2021  280.9421  0.0325   8654.3517
+2022  307.3245  0.0341   9021.3646
+2023  320.6596  0.0339   9457.0824
+2024  362.2201  0.0358  10125.1494
+
+== contents yearly developed (capped) cost/exposure, freq, sev
+          cpe    freq        sev
+year                            
+2021  75.6508  0.0288  2625.3341
+2022  77.8776  0.0296  2629.6066
+2023  85.1944  0.0306  2785.5019
+2024  87.6433  0.0307  2856.7698
+
+===== motor
+ line   vy       variant  trend_pa  factor     D2     AE
+motor 2023          none    0.0000  1.0000 0.0555 0.9945
+motor 2023    total_x1.0    0.0569  1.0885 0.0623 0.9137
+motor 2023   total_x0.75    0.0427  1.0656 0.0608 0.9333
+motor 2023    total_x0.5    0.0285  1.0433 0.0592 0.9533
+motor 2023  freqsev_x1.0    0.0569  1.0885 0.0623 0.9137
+motor 2023 freqsev_x0.75    0.0427  1.0656 0.0608 0.9333
+motor 2023  freqsev_x0.5    0.0285  1.0433 0.0592 0.9533
+motor 2024          none    0.0000  1.0000 0.0640 1.0036
+motor 2024    total_x1.0   -0.0283  0.9454 0.0582 1.0615
+motor 2024   total_x0.75   -0.0213  0.9588 0.0597 1.0467
+motor 2024    total_x0.5   -0.0142  0.9723 0.0612 1.0321
+motor 2024  freqsev_x1.0   -0.0282  0.9457 0.0582 1.0612
+motor 2024 freqsev_x0.75   -0.0211  0.9590 0.0598 1.0465
+motor 2024  freqsev_x0.5   -0.0141  0.9725 0.0612 1.0320
+
+===== buildings
+     line   vy       variant  trend_pa  factor     D2     AE
+buildings 2023          none    0.0000  1.0000 0.0785 1.0803
+buildings 2023    total_x1.0    0.0898  1.1430 0.0885 0.9452
+buildings 2023   total_x0.75    0.0673  1.1054 0.0865 0.9773
+buildings 2023    total_x0.5    0.0449  1.0691 0.0841 1.0105
+buildings 2023  freqsev_x1.0    0.0898  1.1430 0.0885 0.9452
+buildings 2023 freqsev_x0.75    0.0673  1.1054 0.0865 0.9773
+buildings 2023  freqsev_x0.5    0.0449  1.0691 0.0841 1.0105
+buildings 2024          none    0.0000  1.0000 0.0850 1.1193
+buildings 2024    total_x1.0    0.0659  1.1396 0.0961 0.9822
+buildings 2024   total_x0.75    0.0494  1.1030 0.0937 1.0148
+buildings 2024    total_x0.5    0.0330  1.0675 0.0911 1.0485
+buildings 2024  freqsev_x1.0    0.0659  1.1396 0.0961 0.9821
+buildings 2024 freqsev_x0.75    0.0494  1.1030 0.0937 1.0147
+buildings 2024  freqsev_x0.5    0.0330  1.0675 0.0911 1.0485
+
+===== contents
+    line   vy       variant  trend_pa  factor     D2     AE
+contents 2023          none    0.0000  1.0000 0.0620 1.0747
+contents 2023    total_x1.0    0.0290  1.0441 0.0661 1.0293
+contents 2023   total_x0.75    0.0218  1.0329 0.0651 1.0405
+contents 2023    total_x0.5    0.0145  1.0218 0.0641 1.0518
+contents 2023  freqsev_x1.0    0.0290  1.0441 0.0661 1.0293
+contents 2023 freqsev_x0.75    0.0218  1.0329 0.0651 1.0405
+contents 2023  freqsev_x0.5    0.0145  1.0218 0.0641 1.0518
+contents 2024          none    0.0000  1.0000 0.0635 1.0793
+contents 2024    total_x1.0    0.0596  1.1257 0.0730 0.9588
+contents 2024   total_x0.75    0.0447  1.0929 0.0710 0.9876
+contents 2024    total_x0.5    0.0298  1.0610 0.0687 1.0173
+contents 2024  freqsev_x1.0    0.0599  1.1264 0.0730 0.9582
+contents 2024 freqsev_x0.75    0.0449  1.0934 0.0710 0.9872
+contents 2024  freqsev_x0.5    0.0299  1.0613 0.0687 1.0170
+
+== implied 2025 factors (fit on 2021-24)
+motor      total    damp=1.0: trend/yr=-0.0011 factor=0.9971
+motor      total    damp=0.75: trend/yr=-0.0009 factor=0.9978
+motor      total    damp=0.5: trend/yr=-0.0006 factor=0.9985
+motor      freqsev  damp=1.0: trend/yr=-0.0021 factor=0.9947
+motor      freqsev  damp=0.75: trend/yr=-0.0016 factor=0.9960
+motor      freqsev  damp=0.5: trend/yr=-0.0010 factor=0.9973
+buildings  total    damp=1.0: trend/yr=+0.0801 factor=1.2230
+buildings  total    damp=0.75: trend/yr=+0.0601 factor=1.1630
+buildings  total    damp=0.5: trend/yr=+0.0401 factor=1.1059
+buildings  freqsev  damp=1.0: trend/yr=+0.0803 factor=1.2236
+buildings  freqsev  damp=0.75: trend/yr=+0.0602 factor=1.1634
+buildings  freqsev  damp=0.5: trend/yr=+0.0402 factor=1.1062
+contents   total    damp=1.0: trend/yr=+0.0533 factor=1.1423
+contents   total    damp=0.75: trend/yr=+0.0400 factor=1.1049
+contents   total    damp=0.5: trend/yr=+0.0266 factor=1.0688
+contents   freqsev  damp=1.0: trend/yr=+0.0534 factor=1.1426
+contents   freqsev  damp=0.75: trend/yr=+0.0400 factor=1.1052
+contents   freqsev  damp=0.5: trend/yr=+0.0267 factor=1.0689
