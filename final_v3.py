@@ -17,7 +17,8 @@ from exp import get_frames
 from final import OUT
 from guardrails import drift_screen, leak_screen, prediction_sanity, validate_submission
 from models import SEEDS, fit_predict, select_cols
-from prep import LINES, read
+from perils import peril_fs_predict
+from prep import LINES, load_claims, read
 from trend import factor as trend_factor, yearly
 
 
@@ -42,7 +43,10 @@ def main(a) -> None:
             _, it_tw = fit_predict(fit, val, cols, "tweedie", seeds=(0,), val=val)
             tw, _ = fit_predict(train, test, cols, "tweedie", seeds=seeds, rounds=int(it_tw * 1.15))
             rate += (1 - w_fs[ln]) * tw
-        if w_fs[ln] > 0:
+        if ln in a.peril_lines:
+            assert w_fs[ln] == 1.0, "per-peril model is freq x sev only"
+            rate, it_f = peril_fs_predict(train, test, cols, load_claims(), ln, seeds)
+        elif w_fs[ln] > 0:
             _, it_f = fit_predict(fit, val, cols, "freq", seeds=(0,), val=val)
             _, it_s = fit_predict(fit, val, cols, "sev", seeds=(0,), val=val)
             fr, _ = fit_predict(train, test, cols, "freq", seeds=seeds, rounds=int(it_f * 1.15))
@@ -54,7 +58,7 @@ def main(a) -> None:
         preds.append(pd.DataFrame({"row_id": test["row_id"].to_numpy(), "prediction": pred}))
         hist = train.groupby("year").apply(lambda g: g["net_incurred"].sum() / (g["exposure"] * g["dev_f"]).sum(), include_groups=False)
         report[ln] = {
-            "seeds": len(seeds), "w_fs": w_fs[ln], "large_loss_load": round(load, 4),
+            "seeds": len(seeds), "w_fs": w_fs[ln], "per_peril": ln in a.peril_lines, "large_loss_load": round(load, 4),
             "trend_damp": a.trend, "trend_factor": round(tf, 4),
             "iters": {"tweedie": it_tw, "freq": it_f, "sev": it_s},
             "pred_cost_per_expo_2025": round(float(pred.sum() / test["exposure"].sum()), 2),
@@ -80,5 +84,6 @@ if __name__ == "__main__":
     ap.add_argument("--w-fs", default="0.5", help="weight on freq x sev in the blend: a number or a JSON dict per line")
     ap.add_argument("--load", choices=["none", "cap"], default="none")
     ap.add_argument("--trend", type=float, default=0.0, help="damping of the validated freq+sev cost-trend factor (0 = off)")
+    ap.add_argument("--peril-lines", nargs="*", default=[], help="lines modelled as a sum of per-peril freq x sev models")
     ap.add_argument("--tag", default="final")
     main(ap.parse_args())

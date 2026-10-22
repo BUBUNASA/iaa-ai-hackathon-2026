@@ -1,7 +1,7 @@
 # IAA AI-Assisted Hackathon 2026 - Part 1: claim-cost (risk-premium) model
 
 Predicts the expected ultimate claim cost of every 2025 motor, buildings and contents policy row
-(metric: Tweedie D2, power 1.5). Public leaderboard: v1 0.0859 -> v2 (claim development) 0.0955 -> v3 (freq x sev, bagging) 0.1039 -> v4 (+ validated cost trend) 0.1119.
+(metric: Tweedie D2, power 1.5). Public leaderboard: v1 0.0859 -> v2 (claim development) 0.0955 -> v3 (freq x sev, bagging) 0.1039 -> v4 (+ validated cost trend) 0.1119 -> v5 (per-peril models for buildings/contents) 0.1130.
 
 ## Approach
 | Step | What | Why (evidence) |
@@ -11,6 +11,7 @@ Predicts the expected ultimate claim cost of every 2025 motor, buildings and con
 | Claim development | Chain-ladder reporting-lag CDF per peril; training exposure x reported fraction | 2024 claims valued at 31-Dec-2024 are immature (motor ~80% reported); developed 2024 motor cost/exposure 430 vs 343 raw. LB +0.0096 |
 | Model | LightGBM Poisson frequency x Gamma severity, strong regularisation, 5-seed bagging | Beat 3-seed Tweedie pure-premium in 6/6 line x holdout cases (buildings 2023 only marginally; see `blend_eval_out.txt`). Seed bagging helped Tweedie in 4/6 cases (not yet measured for freq x sev) |
 | Governance | Automated leak, drift, format and sanity guardrails (`guardrails.py`, `tests/`) | Run before any submission is written |
+| Per-peril models | Buildings and contents: one freq x sev pair per peril, each on its own developed exposure, summed (`perils.py`) | Beat the line model on both holdouts (buildings 0.0865/0.0937 -> 0.0917/0.0945; contents 0.0651/0.0710 -> 0.0692/0.0725). Mixed for motor, so not used there (`improve_eval_out.txt`) |
 | Cost trend | Freq + severity log-linear trend from train years only (`trend.py`), damped x0.75, applied to all lines | Buildings/contents were 7-12% under-predicted on both holdouts. A trend estimated on pre-holdout years only improves D2 in 4/4 buildings/contents cases (A/E 0.98-1.04 at x0.75). Motor trend is ~0 and sign-unstable, so its 2025 factor is ~0.996 (`trend_eval_out.txt`) |
 
 Rejected ideas (all validated, see `*_out.txt`): vehicle `make_model` (300 levels; overfits), weather/history features (tiny, noisy),
@@ -26,7 +27,7 @@ pip install -r requirements.txt
 python exp.py            # builds cached feature frames (data/cache)
 python val_preds.py      # validation predictions (2023 & 2024 holdouts)
 python blend_eval.py     # model / blend / load decisions
-python final_v3.py --seeds 5 --w-fs 1.0 --tag final   # writes outputs/submission_final.csv (guardrails run inside)
+python final_v3.py --seeds 5 --w-fs 1.0 --trend 0.75 --peril-lines buildings contents --tag peril   # final: outputs/submission_peril.csv (guardrails run inside)
 python -m pytest -q      # guardrail tests
 ```
 

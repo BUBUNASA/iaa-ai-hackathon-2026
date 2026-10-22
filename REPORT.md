@@ -1,7 +1,7 @@
 # Risk-premium modelling for a motor / buildings / contents book: leak-free, claim-developed, governed
 
 **Team:** _[team name / members]_  **Competition:** IAA AI-Assisted Hackathon 2026, Part 1  **Repo:** this repository (`README.md` to reproduce)
-**Public leaderboard (Tweedie D2, higher is better):** v1 baseline 0.0859 -> v2 + claim development 0.0955 -> v3 freq x sev + bagging 0.1039 -> **v4 final (+ cost trend) 0.1119**
+**Public leaderboard (Tweedie D2, higher is better):** v1 baseline 0.0859 -> v2 + claim development 0.0955 -> v3 freq x sev + bagging 0.1039 -> v4 + cost trend 0.1119 -> **v5 final (per-peril buildings/contents) 0.1130**
 
 ## 1. Problem and approach in one paragraph
 For each 2025 policy row we predict expected ultimate claim cost (net of excess and recoveries, repudiated excluded), i.e. the risk premium
@@ -50,6 +50,17 @@ and brought A/E to 0.98-1.04. Motor's trend is near zero and changes sign betwee
 We damp the trend by 0.75 because full trend slightly over-corrected buildings (A/E 0.95) and half under-corrected it (1.05). The 2025 factors are buildings 1.163 and contents 1.105. Public leaderboard: 0.1039 -> 0.1119.
 Caveat: 2025 is further from the training mean (about 2.7 years) than the holdouts were (1.5-2 years), so the extrapolation is the least certain assumption in the model.
 
+**Per-peril models (buildings, contents).** Perils have different drivers (storm/flood follow weather and location, escape of water follows property age, theft follows region) and different reporting lags.
+We fit a frequency x severity pair per peril, each on its own developed exposure, and sum them. Four candidates were judged on both holdouts with the same trend basis (`improve_eval_out.txt`); only this one beat the line model on both years:
+
+| Line | Line model D2 (2023 / 2024) | Per-peril D2 (2023 / 2024) | Adopted |
+|---|---|---|---|
+| Buildings | 0.0865 / 0.0937 | 0.0917 / 0.0945 | yes |
+| Contents | 0.0651 / 0.0710 | 0.0692 / 0.0725 | yes |
+| Motor | 0.0608 / 0.0598 | 0.0633 / 0.0576 | no (mixed) |
+
+Rejected on the same test: a credibility-weighted vehicle code relativity (worse on both years), dropping weather features and looser trees (mixed). Public leaderboard: 0.1119 -> 0.1130.
+
 ## 6. AI-assisted workflow and human review (effective AI use)
 | Stage | AI contribution | Human review / verification |
 |---|---|---|
@@ -64,7 +75,7 @@ Caveat: 2025 is further from the training mean (about 2.7 years) than the holdou
 `final_v3.py` refuses to write a submission unless: no feature is flagged by the leak screen; the submission has exactly the sample row ids, unique, finite, non-negative;
 and predicted 2025 cost per exposure lies within +/-25% of the developed historical range for each line. Drift flags are written to `outputs/report_final.json`
 (none above threshold in the final run). 20 automated tests cover forbidden columns, leak and drift screens, time-split integrity, the reporting curve (valid, monotone CDF), and submission validity.
-Final 2025 predicted cost per exposure: motor 433, buildings 371, contents 97.9 (developed history: motor 417-442, buildings 283-367, contents 76-88). Buildings and contents sit above the historical range by design (trend); the sanity band still passes.
+Final 2025 predicted cost per exposure: motor 433, buildings 397, contents 98.6 (developed history: motor 417-442, buildings 283-367, contents 76-88). Buildings and contents sit above the historical range by design (trend); the sanity band still passes. Per-peril buildings over-predicted the 2024 holdout slightly (A/E 0.94), so buildings is the line most at risk of being too high.
 
 ## 8. Limitations and next steps
 1. **Trend**: the factor is a four-point extrapolation (4 years of history); the damping of 0.75 is a judgement. Consider external inflation indices in Week 2.

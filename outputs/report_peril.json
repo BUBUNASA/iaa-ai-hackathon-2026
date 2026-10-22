@@ -1,0 +1,107 @@
+{
+  "motor": {
+    "seeds": 5,
+    "w_fs": 1.0,
+    "per_peril": false,
+    "large_loss_load": 1.0,
+    "trend_damp": 0.75,
+    "trend_factor": 0.996,
+    "iters": {
+      "tweedie": null,
+      "freq": 1218,
+      "sev": 262
+    },
+    "pred_cost_per_expo_2025": 433.06,
+    "hist_developed_cost_per_expo": {
+      "2021": 417.44,
+      "2022": 441.72,
+      "2023": 436.88,
+      "2024": 430.13
+    },
+    "drift_flags": {}
+  },
+  "buildings": {
+    "seeds": 5,
+    "w_fs": 1.0,
+    "per_peril": true,
+    "large_loss_load": 1.0,
+    "trend_damp": 0.75,
+    "trend_factor": 1.1634,
+    "iters": {
+      "tweedie": null,
+      "freq": {
+        "accidental_damage": {
+          "freq": 504,
+          "sev": 88
+        },
+        "escape_of_water": {
+          "freq": 615,
+          "sev": 136
+        },
+        "fire": {
+          "freq": 377,
+          "sev": 144
+        },
+        "flood": {
+          "freq": 451,
+          "sev": 440
+        },
+        "storm": {
+          "freq": 471,
+          "sev": 161
+        },
+        "subsidence": {
+          "freq": 384,
+          "sev": 227
+        }
+      },
+      "sev": null
+    },
+    "pred_cost_per_expo_2025": 397.41,
+    "hist_developed_cost_per_expo": {
+      "2021": 283.24,
+      "2022": 308.61,
+      "2023": 322.47,
+      "2024": 366.69
+    },
+    "drift_flags": {}
+  },
+  "contents": {
+    "seeds": 5,
+    "w_fs": 1.0,
+    "per_peril": true,
+    "large_loss_load": 1.0,
+    "trend_damp": 0.75,
+    "trend_factor": 1.1052,
+    "iters": {
+      "tweedie": null,
+      "freq": {
+        "accidental_damage": {
+          "freq": 575,
+          "sev": 134
+        },
+        "escape_of_water": {
+          "freq": 674,
+          "sev": 250
+        },
+        "flood": {
+          "freq": 482,
+          "sev": 454
+        },
+        "theft": {
+          "freq": 596,
+          "sev": 293
+        }
+      },
+      "sev": null
+    },
+    "pred_cost_per_expo_2025": 98.63,
+    "hist_developed_cost_per_expo": {
+      "2021": 75.91,
+      "2022": 77.92,
+      "2023": 86.04,
+      "2024": 88.46
+    },
+    "drift_flags": {}
+  }
+}
