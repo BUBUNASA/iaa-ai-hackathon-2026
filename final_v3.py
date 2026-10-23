@@ -19,6 +19,7 @@ from guardrails import drift_screen, leak_screen, prediction_sanity, validate_su
 from models import SEEDS, fit_predict, select_cols
 from perils import peril_fs_predict
 from prep import LINES, load_claims, read
+from pricing_eval import PRICE, REL, add_price
 from trend import factor as trend_factor, yearly
 
 
@@ -31,6 +32,10 @@ def main(a) -> None:
         train, test = get_frames(ln)
         train = add_development(train, curves[ln])
         cols = select_cols(train)
+        base_cols = cols
+        if a.pricing != "none":
+            train, test = add_price(train), add_price(test)
+            cols = [c for c in cols if c not in PRICE + REL] + (PRICE if a.pricing == "raw" else REL)
         # --- guardrails on the feature set ---
         leaks = leak_screen(train, cols)
         drift = drift_screen(train[train["year"] == train["year"].max()], test, cols)
@@ -52,6 +57,16 @@ def main(a) -> None:
             fr, _ = fit_predict(train, test, cols, "freq", seeds=seeds, rounds=int(it_f * 1.15))
             sv, _ = fit_predict(train, test, cols, "sev", seeds=seeds, rounds=int(it_s * 1.15))
             rate += w_fs[ln] * fr * sv
+        anchor = 1.0
+        if a.anchor and a.pricing != "none":
+            assert w_fs[ln] == 1.0 and ln not in a.peril_lines, "anchor implemented for line-level freq x sev only"
+            _, ib_f = fit_predict(fit, val, base_cols, "freq", seeds=(0,), val=val)
+            _, ib_s = fit_predict(fit, val, base_cols, "sev", seeds=(0,), val=val)
+            bf, _ = fit_predict(train, test, base_cols, "freq", seeds=seeds, rounds=int(ib_f * 1.15))
+            bs, _ = fit_predict(train, test, base_cols, "sev", seeds=seeds, rounds=int(ib_s * 1.15))
+            e = test["exposure"].to_numpy()
+            anchor = float((bf * bs * e).sum() / (rate * e).sum())
+            rate = rate * anchor
         load = float(train["net_incurred"].sum() / train["net_capped"].sum()) if a.load == "cap" else 1.0
         tf = trend_factor(yearly(train), 2025, "freqsev", a.trend)[0] if a.trend > 0 else 1.0
         pred = rate * load * tf * test["exposure"].to_numpy()
@@ -59,7 +74,7 @@ def main(a) -> None:
         hist = train.groupby("year").apply(lambda g: g["net_incurred"].sum() / (g["exposure"] * g["dev_f"]).sum(), include_groups=False)
         report[ln] = {
             "seeds": len(seeds), "w_fs": w_fs[ln], "per_peril": ln in a.peril_lines, "large_loss_load": round(load, 4),
-            "trend_damp": a.trend, "trend_factor": round(tf, 4),
+            "trend_damp": a.trend, "trend_factor": round(tf, 4), "pricing": a.pricing, "anchor": round(anchor, 4),
             "iters": {"tweedie": it_tw, "freq": it_f, "sev": it_s},
             "pred_cost_per_expo_2025": round(float(pred.sum() / test["exposure"].sum()), 2),
             "hist_developed_cost_per_expo": {int(k): round(float(v), 2) for k, v in hist.items()},
@@ -85,5 +100,8 @@ if __name__ == "__main__":
     ap.add_argument("--load", choices=["none", "cap"], default="none")
     ap.add_argument("--trend", type=float, default=0.0, help="damping of the validated freq+sev cost-trend factor (0 = off)")
     ap.add_argument("--peril-lines", nargs="*", default=[], help="lines modelled as a sum of per-peril freq x sev models")
+    ap.add_argument("--pricing", choices=["none", "raw", "rel"], default="none",
+                    help="add insurer pricing features: raw premium, or premium relative to its policy year's mean")
+    ap.add_argument("--anchor", action="store_true", help="rescale the pricing model's total to the base model's total")
     ap.add_argument("--tag", default="final")
     main(ap.parse_args())
