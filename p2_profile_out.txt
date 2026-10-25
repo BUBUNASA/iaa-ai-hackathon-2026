@@ -1,0 +1,238 @@
+﻿
+========== 1. DATA QUALITY (emerging, raw) ==========
+motor     policies rows= 47,283 dup_row_id=0 end<start=0 years={2023: 21680, 2024: 25603}
+   exposure_check={'above_one': 189, 'date_mismatch': 47} expo_values>1 top={1.014: 141, 365.0: 38, 301.0: 1, 90.0: 1}
+   nulls={'engine_size_cc': 0.122, 'overnight_parking': 0.12, 'vehicle_age': 0.119}
+motor     test     rows= 90,521 dup_row_id=0 end<start=0 years={2025: 90521}
+   exposure_check={} expo_values>1 top={}
+   nulls={'vehicle_age': 0.122, 'engine_size_cc': 0.122, 'overnight_parking': 0.12}
+buildings policies rows= 27,447 dup_row_id=0 end<start=0 years={2023: 12580, 2024: 14867}
+   exposure_check={'above_one': 117, 'date_mismatch': 33} expo_values>1 top={1.014: 84, 365.0: 24, 284.0: 1, 171.0: 1}
+   nulls={'days_unoccupied': 0.12, 'smoke_alarms': 0.119}
+buildings test     rows= 52,295 dup_row_id=0 end<start=0 years={2025: 52295}
+   exposure_check={} expo_values>1 top={}
+   nulls={'smoke_alarms': 0.121, 'days_unoccupied': 0.119}
+contents  policies rows= 34,566 dup_row_id=0 end<start=0 years={2023: 15834, 2024: 18732}
+   exposure_check={'above_one': 146, 'date_mismatch': 34} expo_values>1 top={1.014: 112, 365.0: 21, 186.0: 1, 188.0: 1}
+   nulls={'security_level': 0.123, 'high_value_items': 0.118}
+contents  test     rows= 66,247 dup_row_id=0 end<start=0 years={2025: 66247}
+   exposure_check={} expo_values>1 top={}
+   nulls={'security_level': 0.122, 'high_value_items': 0.12}
+
+claims rows=9,258 dup_claim_id=0 lines={'motor': 7183, 'buildings': 1059, 'contents': 1016}
+   status: {'closed': 8082, 'open': 1056, 'repudiated': 120}
+   report<loss: 0  loss>2024-12-31: 0  report>2024-12-31: 0
+   neg incurred: 0  recoveries>incurred: 0  paid>incurred: 0
+   nulls: {'repairer_id': 0.463, 'third_party_id': 0.707}
+
+========== 2. CATEGORIES: emerging vs developed, test vs train ==========
+motor     driver_age_band          new vs developed: n/a (emerging-only column) | new in test: []
+motor     driver_age_band train: {'65+': 0.282, '17-24': 0.199, '25-34': 0.191, '50-64': 0.167, '35-49': 0.161}
+motor     driver_age_band test:  {'25-34': 0.253, '17-24': 0.248, '65+': 0.236, '50-64': 0.132, '35-49': 0.13}
+buildings policyholder_age_band    new vs developed: n/a (emerging-only column) | new in test: []
+buildings construction_type        new vs developed: ['BRK', 'MIX', 'STN', 'WOD'] | new in test: []
+buildings policyholder_age_band train: {'65+': 0.286, '17-24': 0.199, '25-34': 0.188, '50-64': 0.166, '35-49': 0.161}
+buildings policyholder_age_band test:  {'25-34': 0.253, '17-24': 0.247, '65+': 0.236, '50-64': 0.133, '35-49': 0.131}
+contents  policyholder_age_band    new vs developed: n/a (emerging-only column) | new in test: []
+contents  policyholder_age_band train: {'65+': 0.283, '17-24': 0.202, '25-34': 0.188, '50-64': 0.166, '35-49': 0.161}
+contents  policyholder_age_band test:  {'25-34': 0.254, '17-24': 0.247, '65+': 0.237, '50-64': 0.132, '35-49': 0.13}
+
+customers gender: {'F': 67973, 'M': 67883}
+occupation: emerging unique 80 developed unique 20
+   emerging top 25: {'Retired': 9218, 'Student': 6445, 'retired': 4431, 'student': 3236, 'Retired ': 2736, 'Care worker': 2694, 'Nurse': 2648, 'Teacher': 2638, 'Administrator': 2636, 'Hairdresser': 2606, 'Retail assistant': 2587, 'Accountant': 2432, 'Doctor': 2430, 'Sales representative': 2416, 'Unemployed': 2413, 'Software developer': 2408, 'Manager': 2387, 'Chef': 2384, 'Driver': 2267, 'Engineer': 2230, 'Mechanic': 2227, 'Builder': 2208, 'Electrician': 2166, 'Student ': 1976, 'Self-employed retired': 1819}
+   developed values: {'Retired': 98624, 'Student': 40063, 'Hairdresser': 23869, 'Care worker': 23383, 'Nurse': 23313, 'Teacher': 23004, 'Administrator': 22937, 'Retail assistant': 22807, 'Doctor': 22313, 'Accountant': 22081, 'Sales representative': 21666, 'Unemployed': 21614, 'Manager': 21539, 'Chef': 21233, 'Software developer': 21212, 'Engineer': 20641, 'Driver': 20490, 'Electrician': 20400, 'Mechanic': 20295, 'Builder': 20294}
+marital_status: emerging {'single': 0.46, 'married': 0.431, 'divorced': 0.074, 'widowed': 0.035}
+                developed {'married': 0.467, 'single': 0.41, 'divorced': 0.082, 'widowed': 0.041}
+previous_insurer: emerging {'INS31': 0.026, 'INS10': 0.026, 'INS05': 0.026, 'INS22': 0.026, 'INS18': 0.026, 'INS26': 0.025, 'INS11': 0.025, 'INS33': 0.025}
+                  developed {'INS08': 0.025, 'INS28': 0.025, 'INS34': 0.025, 'INS11': 0.025, 'INS01': 0.025, 'INS13': 0.025, 'INS23': 0.025, 'INS37': 0.025}
+marketing_segment: emerging {'young_affluent': 0.257, 'young_mainstream': 0.119, 'mature_affluent': 0.098, 'midlife_affluent': 0.097, 'senior_affluent': 0.097, 'young_budget': 0.095, 'senior_mainstream': 0.045, 'midlife_mainstream': 0.044}
+                   developed {'young_affluent': 0.154, 'midlife_affluent': 0.134, 'senior_affluent': 0.131, 'mature_affluent': 0.131, 'young_mainstream': 0.07, 'midlife_mainstream': 0.061, 'mature_mainstream': 0.06, 'senior_mainstream': 0.059}
+region emerging: {'E01': 17235, 'E02': 24481, 'E03': 40212, 'E04': 5874, 'E05': 22479, 'E06': 26633}
+addr urban_density: emerging {'suburban': 0.452, 'urban': 0.246, 'rural': 0.201, 'dense_urban': 0.101} | developed {'suburban': 0.449, 'urban': 0.251, 'rural': 0.199, 'dense_urban': 0.101}
+addr soil_type: emerging {'clay': 0.353, 'chalk': 0.162, 'loam': 0.162, 'rock': 0.162, 'sand': 0.161} | developed {'clay': 0.416, 'rock': 0.147, 'sand': 0.146, 'loam': 0.146, 'chalk': 0.146}
+addr property_type: emerging {'semi_detached': 0.298, 'detached': 0.252, 'terraced': 0.251, 'flat': 0.199} | developed {'semi_detached': 0.3, 'terraced': 0.25, 'detached': 0.25, 'flat': 0.2}
+addr roof_type: emerging {'pitched': 0.901, 'flat': 0.099} | developed {'pitched': 0.9, 'flat': 0.1}
+addr basement: emerging {False: 0.85, True: 0.15} | developed {False: 0.85, True: 0.15}
+addr trees_within_5m: emerging {False: 0.88, True: 0.12} | developed {False: 0.879, True: 0.121}
+addr listed_building: emerging {False: 0.97, True: 0.03} | developed {False: 0.97, True: 0.03}
+addr energy_rating: emerging {'C': 0.201, 'B': 0.197, 'D': 0.171, 'A': 0.16, 'E': 0.115, 'F': 0.08, 'G': 0.075} | developed {'C': 0.201, 'B': 0.197, 'D': 0.171, 'A': 0.16, 'E': 0.116, 'F': 0.08, 'G': 0.074}
+addr solar_panels: emerging {False: 0.9, True: 0.1} | developed {False: 0.9, True: 0.1}
+
+========== 3. NUMERIC MEANS: developed 2024 | emerging train | emerging test ==========
+-- motor
+                            dev2024  em_train   em_test  test/train
+col                                                                
+exposure                      1.039     0.824     0.873       1.060
+years_licensed               29.474    26.869    22.971       0.855
+ncb_years                     7.711     6.366     6.048       0.950
+vehicle_value_group          10.982    10.874    10.720       0.986
+vehicle_age                   8.790    10.255    10.358       1.010
+engine_size_cc             2108.205  2096.226  2080.053       0.992
+seats                         4.901     4.904     4.898       0.999
+driver_assist                 0.302     0.299     0.300       1.007
+named_young_driver            0.052     0.052     0.046       0.895
+voluntary_excess            274.779   270.794   273.530       1.010
+compulsory_excess           250.000   250.000   250.000       1.000
+missed_payments_12m           0.104     0.100     0.100       0.997
+new_business                  0.154     0.139     0.760       5.483
+renewal_count                 6.128     6.882     1.811       0.263
+days_quote_to_inception      13.192    13.138    13.155       1.001
+discount_applied              0.025     0.013     0.016       1.244
+written_premium             584.776   611.544   677.917       1.109
+customer_service_contacts     0.671     0.808     0.400       0.495
+   channel: train {'broker': 0.701, 'direct': 0.25, 'comparison_site': 0.049} | test {'broker': 0.7, 'direct': 0.25, 'comparison_site': 0.05}
+   cover_type: train {'comprehensive': 0.787, 'third_party_fire_theft': 0.109, 'third_party_only': 0.104} | test {'comprehensive': 0.775, 'third_party_fire_theft': 0.113, 'third_party_only': 0.112}
+   payment_method: train {'annual': 0.553, 'monthly': 0.447} | test {'annual': 0.55, 'monthly': 0.45}
+   test policy_ids seen in train: 0.240; test new_business share 0.760
+-- buildings
+                              dev2024    em_train     em_test  test/train
+col                                                                      
+exposure                        1.073       0.855       0.906       1.060
+sum_insured                701504.095  681666.593  730946.917       1.072
+days_unoccupied                10.435      10.468      10.468       1.000
+accidental_damage_cover         0.400       0.400       0.399       0.999
+mortgage                        0.552       0.552       0.545       0.987
+voluntary_excess              199.773     201.674     200.076       0.992
+compulsory_excess             350.000     350.000     350.000       1.000
+missed_payments_12m             0.104       0.101       0.101       0.996
+new_business                    0.152       0.138       0.759       5.490
+renewal_count                   6.113       6.894       1.824       0.265
+days_quote_to_inception        13.168      13.131      13.155       1.002
+discount_applied                0.025       0.013       0.016       1.257
+written_premium               347.533     357.531     386.604       1.081
+customer_service_contacts       0.503       0.532       0.398       0.748
+   channel: train {'broker': 0.702, 'direct': 0.246, 'comparison_site': 0.052} | test {'broker': 0.699, 'direct': 0.251, 'comparison_site': 0.05}
+   payment_method: train {'annual': 0.554, 'monthly': 0.446} | test {'annual': 0.55, 'monthly': 0.45}
+   test policy_ids seen in train: 0.240; test new_business share 0.759
+-- contents
+                              dev2024    em_train     em_test  test/train
+col                                                                      
+exposure                        1.091       0.840       0.891       1.060
+sum_insured                131201.576  112412.754  121722.833       1.083
+high_value_items                1.131       1.114       1.125       1.010
+accidental_damage_cover         0.450       0.446       0.453       1.017
+works_from_home                 0.251       0.250       0.250       1.001
+lodgers                         0.049       0.050       0.048       0.964
+bicycle_cover                   0.150       0.152       0.152       1.003
+voluntary_excess              200.783     194.487     199.311       1.025
+compulsory_excess             350.000     350.000     350.000       1.000
+missed_payments_12m             0.103       0.102       0.101       0.989
+new_business                    0.152       0.137       0.761       5.564
+renewal_count                   6.107       6.948       1.823       0.262
+days_quote_to_inception        13.180      13.236      13.135       0.992
+discount_applied                0.025       0.013       0.016       1.255
+written_premium               146.439     128.299     137.176       1.069
+customer_service_contacts       0.488       0.490       0.399       0.814
+   channel: train {'broker': 0.703, 'direct': 0.246, 'comparison_site': 0.05} | test {'broker': 0.699, 'direct': 0.251, 'comparison_site': 0.05}
+   payment_method: train {'annual': 0.558, 'monthly': 0.442} | test {'annual': 0.55, 'monthly': 0.45}
+   test policy_ids seen in train: 0.239; test new_business share 0.761
+
+weather means by year, emerging:
+       hail_days  wind_exposure_index  freezing_days  dry_summer_index  wildfire_index  rainfall_mm  mean_temperature_c
+year                                                                                                                  
+2023      13.97                 4.68          21.02              0.68            0.50      1380.81               15.30
+2024      17.08                 5.41          17.49              0.71            0.55      1375.09               15.78
+2025      11.41                 5.11          28.86              0.60            0.53      1250.66               14.22
+weather means by year, developed:
+       hail_days  wind_exposure_index  freezing_days  dry_summer_index  wildfire_index  rainfall_mm  mean_temperature_c
+year                                                                                                                  
+2021       5.64                 4.60          41.27              0.49            0.18      1143.82               12.22
+2022       6.72                 4.51          36.98              0.47            0.15      1023.51               12.43
+2023       6.26                 4.39          34.70              0.55            0.13       980.69               13.08
+2024       6.77                 4.35          39.48              0.59            0.16      1036.39               12.97
+2025       5.89                 4.88          35.89              0.49            0.17      1039.97               12.62
+
+========== 4. EXPERIENCE (reported at 31-Dec-2024, exposure fixed) ==========
+developed motor     unmatched claims=297 (0.26%) dup matches=0 cap=117,133
+developed buildings unmatched claims=67 (0.25%) dup matches=0 cap=271,061
+developed contents  unmatched claims=50 (0.21%) dup matches=0 cap=45,367
+developed peril mix:
+                                 n          cost  share_n  share_cost       mean
+line      peril                                                                 
+buildings accidental_damage   3848  4.685116e+06    0.146       0.019   1217.546
+          escape_of_water    10137  5.811732e+07    0.383       0.234   5733.187
+          fire                1115  5.762829e+07    0.042       0.232  51684.569
+          flood               2232  6.999258e+07    0.084       0.282  31358.682
+          storm               7816  2.699673e+07    0.296       0.109   3454.034
+          subsidence          1294  3.077944e+07    0.049       0.124  23786.274
+contents  accidental_damage   9208  7.117339e+06    0.382       0.108    772.952
+          escape_of_water     5407  1.481293e+07    0.224       0.224   2739.585
+          flood               1624  1.622680e+07    0.067       0.245   9991.871
+          theft               7863  2.797173e+07    0.326       0.423   3557.386
+motor     bodily_injury       7583  1.636541e+08    0.067       0.379  21581.711
+          glass_hail         15732  1.708703e+07    0.140       0.040   1086.132
+          own_damage         48964  9.012494e+07    0.435       0.209   1840.637
+          theft               6501  3.880715e+07    0.058       0.090   5969.413
+          third_party_prop   33826  1.220510e+08    0.300       0.283   3608.200
+developed report lag days by line: {'buildings': {0.5: 9.0, 0.9: 34.0}, 'contents': {0.5: 6.0, 0.9: 23.0}, 'motor': {0.5: 9.0, 0.9: 42.0}}
+developed repudiated share: 0.010; recoveries/incurred: 0.036
+emerging  motor     unmatched claims=28 (0.39%) dup matches=0 cap=59,818
+   emerging motor by region:
+             expo       n        cost        prem   freq       sev      cpe     LR
+region                                                                            
+E01      4954.781   954.0  2316315.27  3593180.82  0.193  2428.003  467.491  0.645
+E02      6895.269  1262.0  2771125.81  5272462.76  0.183  2195.821  401.888  0.526
+E03     11577.777  2005.0  4433399.26  8104181.73  0.173  2211.172  382.923  0.547
+E04      1783.275   296.0   654266.02  1297618.70  0.166  2210.358  366.890  0.504
+E05      6268.122  1270.0  2566461.36  4857060.92  0.203  2020.836  409.447  0.528
+E06      7489.735  1368.0  3114320.24  5792904.23  0.183  2276.550  415.812  0.538
+emerging  buildings unmatched claims=3 (0.28%) dup matches=0 cap=337,871
+   emerging buildings by region:
+            expo      n        cost        prem   freq        sev      cpe     LR
+region                                                                           
+E01     2848.830  111.0   818774.81  1112299.90  0.039   7376.350  287.407  0.736
+E02     4192.617  162.0  2128649.83  1820382.32  0.039  13139.814  507.714  1.169
+E03     6927.841  344.0  2465611.06  2996550.91  0.050   7167.474  355.899  0.823
+E04     1023.820   46.0   532553.79   417993.49  0.045  11577.256  520.163  1.274
+E05     3793.922  167.0  1239218.36  1397452.47  0.044   7420.469  326.633  0.887
+E06     4681.220  226.0  2373941.46  2068233.80  0.048  10504.166  507.120  1.148
+emerging  contents  unmatched claims=5 (0.49%) dup matches=0 cap=44,253
+   emerging contents by region:
+            expo      n       cost        prem   freq       sev      cpe     LR
+region                                                                         
+E01     3624.789  116.0  397008.41   546030.30  0.032  3422.486  109.526  0.727
+E02     5175.753  203.0  426073.61   911847.16  0.039  2098.885   82.321  0.467
+E03     8511.851  273.0  708805.05  1204972.32  0.032  2596.355   83.273  0.588
+E04     1262.805   47.0  188847.89   215661.08  0.037  4018.040  149.546  0.876
+E05     4697.940  178.0  388726.83   746968.62  0.038  2183.859   82.744  0.520
+E06     5785.219  194.0  473892.51   809824.16  0.034  2442.745   81.914  0.585
+emerging peril mix:
+                                n        cost  share_n  share_cost       mean
+line      peril                                                              
+buildings accidental_damage   122   109694.18    0.115       0.011    899.133
+          escape_of_water     268  1039041.63    0.253       0.108   3877.021
+          fire                 70  4348379.47    0.066       0.454  62119.707
+          flood                81  2126444.33    0.076       0.222  26252.399
+          storm               466  1223907.30    0.440       0.128   2626.411
+          subsidence           52   730709.41    0.049       0.076  14052.104
+contents  accidental_damage   340   212989.20    0.335       0.082    626.439
+          escape_of_water     172   362989.43    0.169       0.140   2110.404
+          flood                86   788569.78    0.085       0.304   9169.416
+          theft               418  1228389.40    0.411       0.474   2938.731
+motor     bodily_injury       450  4813607.53    0.063       0.302  10696.906
+          glass_hail         1350  1028520.69    0.188       0.065    761.867
+          own_damage         2712  3056582.13    0.378       0.192   1127.058
+          theft               408  1612964.81    0.057       0.101   3953.345
+          third_party_prop   2263  5407469.54    0.315       0.340   2389.514
+emerging report lag days by line: {'buildings': {0.5: 8.0, 0.9: 31.0}, 'contents': {0.5: 6.0, 0.9: 22.0}, 'motor': {0.5: 9.0, 0.9: 41.0}}
+emerging repudiated share: 0.013; recoveries/incurred: 0.031
+
+    market      line  year     rows       expo       n         cost   open         prem  freq       sev     cpe  open%    LR  prem/expo
+developed     motor  2021 216008.0 187993.246 27711.0 105897646.52  321.0 116190196.38 0.147  3821.502 563.306  0.012 0.911    618.055
+developed     motor  2022 254685.0 199701.882 30067.0 116723185.03  607.0 139961366.64 0.151  3882.103 584.487  0.020 0.834    700.852
+developed     motor  2023 254577.0 199685.203 28360.0 117307703.70 1081.0 144747852.14 0.142  4136.379 587.463  0.038 0.810    724.880
+developed     motor  2024 254698.0 199789.184 26171.0  90666976.89 5424.0 148941359.85 0.131  3464.406 453.813  0.207 0.609    745.493
+developed buildings  2021 155729.0 140783.842  6195.0  54052834.19   17.0  46233270.44 0.044  8725.236 383.942  0.003 1.169    328.399
+developed buildings  2022 183864.0 149874.696  6792.0  61529331.08   55.0  57774370.07 0.045  9059.089 410.538  0.008 1.065    385.484
+developed buildings  2023 184132.0 149989.631  6817.0  64832471.23  198.0  60706176.41 0.045  9510.411 432.246  0.029 1.068    404.736
+developed buildings  2024 184001.0 149919.727  6571.0  67353949.55 1620.0  63946482.83 0.044 10250.183 449.267  0.247 1.053    426.538
+developed  contents  2021 158848.0 140932.569  5645.0  14870108.25    0.0  19864972.62 0.040  2634.209 105.512  0.000 0.749    140.954
+developed  contents  2022 187632.0 149988.713  6097.0  16040968.62    0.0  24713824.11 0.041  2630.961 106.948  0.000 0.649    164.771
+developed  contents  2023 187646.0 149978.110  6235.0  17539466.93   18.0  26059827.89 0.042  2813.066 116.947  0.003 0.673    173.758
+developed  contents  2024 187491.0 149969.278  6075.0  17516035.05  791.0  27456066.07 0.041  2883.298 116.797  0.130 0.638    183.078
+ emerging     motor  2023  21680.0  18864.670  3606.0   8162761.21  130.0  13247857.63 0.191  2263.661 432.701  0.036 0.616    702.258
+ emerging     motor  2024  25603.0  20104.290  3549.0   7693126.75  709.0  15669551.53 0.177  2167.689 382.661  0.200 0.491    779.413
+ emerging buildings  2023  12580.0  11372.682   519.0   5848688.10   21.0   4353303.32 0.046 11269.149 514.275  0.040 1.344    382.786
+ emerging buildings  2024  14867.0  12095.568   537.0   3710061.21  136.0   5459609.57 0.044  6908.866 306.729  0.253 0.680    451.373
+ emerging  contents  2023  15834.0  14107.772   499.0   1285654.53    0.0   1974906.26 0.035  2576.462  91.131  0.000 0.651    139.987
+ emerging  contents  2024  18732.0  14950.585   512.0   1297699.77   59.0   2460397.38 0.034  2534.570  86.799  0.115 0.527    164.569
