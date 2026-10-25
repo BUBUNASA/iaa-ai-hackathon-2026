@@ -15,7 +15,7 @@ import pandas as pd
 from dev import add_development, reported_fraction_curves
 from exp import get_frames
 from final import OUT
-from guardrails import drift_screen, leak_screen, prediction_sanity, validate_submission
+from guardrails import drift_screen, exposure_check, leak_screen, prediction_sanity, validate_submission
 from models import SEEDS, fit_predict, select_cols
 from perils import peril_fs_predict
 from prep import LINES, load_claims, read
@@ -33,13 +33,16 @@ def main(a) -> None:
         train = add_development(train, curves[ln])
         cols = select_cols(train)
         base_cols = cols
-        if a.pricing != "none":
+        pricing = a.pricing if ln in (a.pricing_lines or LINES) else "none"
+        if pricing != "none":
             train, test = add_price(train), add_price(test)
-            cols = [c for c in cols if c not in PRICE + REL] + (PRICE if a.pricing == "raw" else REL)
+            cols = [c for c in cols if c not in PRICE + REL] + (PRICE if pricing == "raw" else REL)
         # --- guardrails on the feature set ---
         leaks = leak_screen(train, cols)
         drift = drift_screen(train[train["year"] == train["year"].max()], test, cols)
         assert not leaks, f"{ln}: possible leak(s) {leaks}"
+        expo_issues = {"train": exposure_check(train), "test": exposure_check(test)}
+        assert not expo_issues["train"].get("above_one") and not expo_issues["test"].get("above_one"), f"{ln}: bad exposure {expo_issues}"
         # --- iteration counts: early-stop once on the latest year (seed 0), reuse for refit on all years ---
         fit, val = train[train["year"] < 2024], train[train["year"] == 2024]
         it_tw = it_f = it_s = None
@@ -58,7 +61,7 @@ def main(a) -> None:
             sv, _ = fit_predict(train, test, cols, "sev", seeds=seeds, rounds=int(it_s * 1.15))
             rate += w_fs[ln] * fr * sv
         anchor = 1.0
-        if a.anchor and a.pricing != "none":
+        if a.anchor and pricing != "none":
             assert w_fs[ln] == 1.0 and ln not in a.peril_lines, "anchor implemented for line-level freq x sev only"
             _, ib_f = fit_predict(fit, val, base_cols, "freq", seeds=(0,), val=val)
             _, ib_s = fit_predict(fit, val, base_cols, "sev", seeds=(0,), val=val)
@@ -74,11 +77,11 @@ def main(a) -> None:
         hist = train.groupby("year").apply(lambda g: g["net_incurred"].sum() / (g["exposure"] * g["dev_f"]).sum(), include_groups=False)
         report[ln] = {
             "seeds": len(seeds), "w_fs": w_fs[ln], "per_peril": ln in a.peril_lines, "large_loss_load": round(load, 4),
-            "trend_damp": a.trend, "trend_factor": round(tf, 4), "pricing": a.pricing, "anchor": round(anchor, 4),
+            "trend_damp": a.trend, "trend_factor": round(tf, 4), "pricing": pricing, "anchor": round(anchor, 4),
             "iters": {"tweedie": it_tw, "freq": it_f, "sev": it_s},
             "pred_cost_per_expo_2025": round(float(pred.sum() / test["exposure"].sum()), 2),
             "hist_developed_cost_per_expo": {int(k): round(float(v), 2) for k, v in hist.items()},
-            "drift_flags": drift,
+            "drift_flags": drift, "exposure_issues": expo_issues,
         }
         assert prediction_sanity(report[ln]["pred_cost_per_expo_2025"], report[ln]["hist_developed_cost_per_expo"]), f"{ln} level outside sanity band"
         print(ln, json.dumps(report[ln]), flush=True)
@@ -102,6 +105,7 @@ if __name__ == "__main__":
     ap.add_argument("--peril-lines", nargs="*", default=[], help="lines modelled as a sum of per-peril freq x sev models")
     ap.add_argument("--pricing", choices=["none", "raw", "rel"], default="none",
                     help="add insurer pricing features: raw premium, or premium relative to its policy year's mean")
+    ap.add_argument("--pricing-lines", nargs="*", default=[], help="lines that get the pricing features (default: all)")
     ap.add_argument("--anchor", action="store_true", help="rescale the pricing model's total to the base model's total")
     ap.add_argument("--tag", default="final")
     main(ap.parse_args())

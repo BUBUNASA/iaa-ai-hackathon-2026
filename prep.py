@@ -20,6 +20,11 @@ def load_policies(line: str, test: bool = False) -> pd.DataFrame:
     for c in DATE_COLS:
         df[c] = pd.to_datetime(df[c])
     df["year"] = df["period_start"].dt.year
+    # Data-quality fix: ~0.4% of training rows record exposure in days (e.g. 365) or on a 360-day basis (1.014).
+    # Recompute those from the policy dates (days/365, the convention every other row follows). Test has none.
+    bad = df["exposure"] > 1.0001
+    days = (df["period_end"] - df["period_start"]).dt.days + 1
+    df.loc[bad, "exposure"] = (days[bad] / 365).clip(upper=1.0)
     return df
 
 

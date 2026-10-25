@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT))
 
 from dev import MAX_AGE, reported_fraction_curves, row_reported_fraction  # noqa: E402
 from features import ID_COLS, LEAK_COLS, NOISE_COLS, PRICING_COLS, feature_columns  # noqa: E402
-from guardrails import drift_screen, leak_screen, prediction_sanity, validate_submission  # noqa: E402
+from guardrails import drift_screen, exposure_check, leak_screen, prediction_sanity, validate_submission  # noqa: E402
 from prep import LINES  # noqa: E402
 
 CACHE = ROOT / "data" / "cache"
@@ -112,6 +112,22 @@ def test_validate_submission_detects_problems():
 def test_prediction_sanity_band():
     hist = {2021: 400.0, 2022: 440.0, 2023: 430.0}
     assert prediction_sanity(420.0, hist) and not prediction_sanity(250.0, hist) and not prediction_sanity(700.0, hist)
+
+
+# ---------- exposure ----------------------------------------------------------------------------------------
+def test_exposure_check_flags_day_units_and_360_basis():
+    d = pd.DataFrame({"period_start": pd.to_datetime(["2024-01-01"] * 3), "period_end": pd.to_datetime(["2024-12-31"] * 3),
+                      "exposure": [1.0, 365.0, 365 / 360]})
+    # 365/360 is within EXPO_TOL of the dates (normal rows differ by up to 0.0137), so only above_one catches it
+    assert exposure_check(d) == {"above_one": 2, "date_mismatch": 1}
+    assert exposure_check(d.iloc[:1]) == {}
+
+
+@needs_cache
+def test_cached_exposure_is_clean(frames):
+    for ln, (tr, te) in frames.items():
+        assert "above_one" not in exposure_check(tr), ln
+        assert "above_one" not in exposure_check(te), ln
 
 
 @pytest.mark.skipif(not (OUT / "submission_final.csv").exists(), reason="final submission not built")

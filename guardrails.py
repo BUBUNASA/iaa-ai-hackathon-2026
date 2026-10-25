@@ -4,6 +4,7 @@
 2. drift_screen  - features whose 2025 test distribution differs sharply from the latest training year.
 3. validate_submission - format/ID/finite/non-negative checks against the official sample_submission.
 4. prediction_sanity   - portfolio-level predicted cost per exposure vs the developed historical range.
+5. exposure_check      - exposure must be a year fraction in (0, 1] and agree with the policy dates (days/365).
 """
 from __future__ import annotations
 
@@ -14,6 +15,18 @@ LEAK_CORR = 0.30        # |Pearson corr| with claim_count above which a feature 
 DRIFT_SMD = 0.50        # standardised mean difference (numeric) flag
 DRIFT_TVD = 0.15        # total-variation distance (categorical) flag
 SANITY_BAND = 0.25      # predicted cost/exposure must sit within +/-25% of the developed historical range
+EXPO_TOL = 0.02         # |exposure - policy days/365| tolerance
+
+
+def exposure_check(df: pd.DataFrame) -> dict[str, int]:
+    """Count rows whose exposure is outside (0, 1] or disagrees with the policy dates. Found in the raw training data:
+    ~0.4% of rows per line recorded in days (365) or on a 360-day basis (1.014) -- these inflated exposure ~25%."""
+    e = df["exposure"]
+    out = {"non_positive": int((e <= 0).sum()), "above_one": int((e > 1.0001).sum())}
+    if {"period_start", "period_end"} <= set(df.columns):
+        days = (pd.to_datetime(df["period_end"]) - pd.to_datetime(df["period_start"])).dt.days + 1
+        out["date_mismatch"] = int(((days / 365).clip(upper=1.0) - e).abs().gt(EXPO_TOL).sum())
+    return {k: v for k, v in out.items() if v}
 
 
 def leak_screen(df: pd.DataFrame, cols: list[str], target: str = "claim_count", thr: float = LEAK_CORR) -> dict[str, float]:
