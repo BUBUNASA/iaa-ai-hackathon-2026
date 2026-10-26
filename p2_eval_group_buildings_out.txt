@@ -1,0 +1,11 @@
+﻿
+===== buildings scheme=group fit=19,195 hold=8,252 hold claims=325
+   DEV done iters=1069/305 cal freq=1.083 sev=0.963
+   EM done iters=489/1
+   POOL done iters=1135/334
+   OFFSET done iters=80/1
+buildings EM       D2=0.0320 A/E=1.164 D2orc=0.0364 | NB D2=0.1219 A/E=1.251 D2orc=0.1252 | P(>EM)=nan
+buildings DEV_CAL  D2=0.0958 A/E=1.119 D2orc=0.0974 | NB D2=0.1571 A/E=1.082 D2orc=0.1573 | P(>EM)=0.99
+buildings POOL     D2=0.0785 A/E=1.228 D2orc=0.0854 | NB D2=0.1335 A/E=1.189 D2orc=0.1377 | P(>EM)=0.93
+buildings OFFSET   D2=0.0990 A/E=1.123 D2orc=0.1006 | NB D2=0.1560 A/E=1.100 D2orc=0.1564 | P(>EM)=1.00
+   info {"DEV_freq_iters": 1069, "DEV_sev_iters": 305, "DEV_cal_freq": 1.0827, "DEV_cal_sev": 0.9634, "EM_freq_iters": 489, "EM_sev_iters": 1, "POOL_freq_iters": 1135, "POOL_sev_iters": 334, "OFFSET_freq_iters": 80, "OFFSET_sev_iters": 1}

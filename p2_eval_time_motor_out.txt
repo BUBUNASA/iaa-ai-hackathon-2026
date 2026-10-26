@@ -1,0 +1,11 @@
+﻿
+===== motor scheme=time fit=21,680 hold=25,603 hold claims=3549
+   DEV done iters=1424/141 cal freq=1.303 sev=0.625
+   EM done iters=594/79
+   POOL done iters=1226/105
+   OFFSET done iters=134/1
+motor     EM       D2=0.0780 A/E=1.149 D2orc=0.0814 | NB D2=0.0896 A/E=1.059 D2orc=0.0919 | P(>EM)=nan
+motor     DEV_CAL  D2=0.0870 A/E=1.054 D2orc=0.0877 | NB D2=0.0980 A/E=1.027 D2orc=0.0988 | P(>EM)=0.98
+motor     POOL     D2=0.0894 A/E=0.994 D2orc=0.0894 | NB D2=0.0936 A/E=0.926 D2orc=0.0921 | P(>EM)=1.00
+motor     OFFSET   D2=0.0880 A/E=1.039 D2orc=0.0885 | NB D2=0.0952 A/E=1.011 D2orc=0.0956 | P(>EM)=1.00
+   info {"DEV_freq_iters": 1424, "DEV_sev_iters": 141, "DEV_cal_freq": 1.3025, "DEV_cal_sev": 0.6251, "EM_freq_iters": 594, "EM_sev_iters": 79, "POOL_freq_iters": 1226, "POOL_sev_iters": 105, "OFFSET_freq_iters": 134, "OFFSET_sev_iters": 1}

@@ -47,13 +47,17 @@ def run(scheme: str, lines: list[str]) -> None:
             hid = np.random.default_rng(7).choice(ids, int(0.3 * len(ids)), replace=False)
             fit, hold, cutoff = em[~em["policy_id"].isin(hid)], em[em["policy_id"].isin(hid)], 2024
         print(f"\n===== {ln} scheme={scheme} fit={len(fit):,} hold={len(hold):,} hold claims={int(hold['claim_count'].sum())}", flush=True)
-        rates, info = predict_variants(dev, fit, [hold], cutoff, log=lambda s: print(s, flush=True))
+        rates, info = predict_variants(dev, fit, [hold, fit], cutoff, log=lambda s: print(s, flush=True))
         y = hold["net_incurred"].to_numpy()
         nb = hold["new_business"].to_numpy().astype(bool)
         e = (hold["exposure"] * hold["dev_f"]).to_numpy()
         preds = {v: rates[v][0] * e for v in VARIANTS if v in rates}
         keep = ["row_id", "policy_id", "year", "new_business", "exposure", "dev_f", "claim_count", "net_incurred", "net_capped"]
         hold[keep].assign(**{f"p_{v}": p for v, p in preds.items()}).to_parquet(ROOT / "data" / "cache_p2" / f"hold_{scheme}_{ln}.parquet")
+        # in-sample predictions on the fit rows: used (only) to estimate adjustments such as a new-business factor
+        e_fit = (fit["exposure"] * fit["dev_f"]).to_numpy()
+        fit[keep].assign(**{f"p_{v}": rates[v][1] * e_fit for v in VARIANTS if v in rates}).to_parquet(
+            ROOT / "data" / "cache_p2" / f"fit_{scheme}_{ln}.parquet")
         for v, p in preds.items():
             a, b = metrics(y, p), metrics(y[nb], p[nb])
             pb = boot_gain(y, p, preds["EM"], rng) if v != "EM" else np.nan
