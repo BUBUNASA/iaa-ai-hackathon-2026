@@ -1,0 +1,33 @@
+﻿
+===== contents scheme=time fit=15,834 hold=18,732 hold claims=512
+   DEV done iters=823/194 cal freq=0.995 sev=0.980
+   EM done iters=334/1
+   POOL done iters=1120/183
+   OFFSET done iters=123/1
+contents  EM       D2=0.0635 A/E=1.024 D2orc=0.0634 | NB D2=0.1096 A/E=1.472 D2orc=0.1220 | P(>EM)=nan
+contents  DEV_CAL  D2=0.0998 A/E=1.012 D2orc=0.0998 | NB D2=0.1451 A/E=1.382 D2orc=0.1535 | P(>EM)=1.00
+contents  POOL     D2=0.0990 A/E=1.021 D2orc=0.0990 | NB D2=0.1419 A/E=1.411 D2orc=0.1518 | P(>EM)=1.00
+contents  OFFSET   D2=0.0984 A/E=1.018 D2orc=0.0985 | NB D2=0.1476 A/E=1.396 D2orc=0.1569 | P(>EM)=0.99
+   info {"DEV_freq_iters": 823, "DEV_sev_iters": 194, "DEV_cal_freq": 0.9951, "DEV_cal_sev": 0.9803, "EM_freq_iters": 334, "EM_sev_iters": 1, "POOL_freq_iters": 1120, "POOL_sev_iters": 183, "OFFSET_freq_iters": 123, "OFFSET_sev_iters": 1}
+
+===== buildings scheme=time fit=12,580 hold=14,867 hold claims=537
+   DEV done iters=956/201 cal freq=1.102 sev=1.270
+   EM done iters=507/1
+   POOL done iters=761/24
+   OFFSET done iters=165/1
+buildings EM       D2=0.0311 A/E=0.635 D2orc=0.0604 | NB D2=0.0097 A/E=0.504 D2orc=0.0582 | P(>EM)=nan
+buildings DEV_CAL  D2=0.0799 A/E=0.602 D2orc=0.1198 | NB D2=0.0264 A/E=0.461 D2orc=0.0868 | P(>EM)=1.00
+buildings POOL     D2=0.0970 A/E=0.793 D2orc=0.1089 | NB D2=0.0750 A/E=0.602 D2orc=0.1092 | P(>EM)=1.00
+buildings OFFSET   D2=0.0822 A/E=0.597 D2orc=0.1231 | NB D2=0.0154 A/E=0.459 D2orc=0.0697 | P(>EM)=1.00
+   info {"DEV_freq_iters": 956, "DEV_sev_iters": 201, "DEV_cal_freq": 1.1025, "DEV_cal_sev": 1.2699, "EM_freq_iters": 507, "EM_sev_iters": 1, "POOL_freq_iters": 761, "POOL_sev_iters": 24, "OFFSET_freq_iters": 165, "OFFSET_sev_iters": 1}
+
+===== motor scheme=time fit=21,680 hold=25,603 hold claims=3549
+   DEV done iters=1424/141 cal freq=1.303 sev=0.625
+   EM done iters=594/79
+   POOL done iters=1226/105
+   OFFSET done iters=134/1
+motor     EM       D2=0.0780 A/E=1.149 D2orc=0.0814 | NB D2=0.0896 A/E=1.059 D2orc=0.0919 | P(>EM)=nan
+motor     DEV_CAL  D2=0.0870 A/E=1.054 D2orc=0.0877 | NB D2=0.0980 A/E=1.027 D2orc=0.0988 | P(>EM)=0.99
+motor     POOL     D2=0.0894 A/E=0.994 D2orc=0.0894 | NB D2=0.0936 A/E=0.926 D2orc=0.0921 | P(>EM)=1.00
+motor     OFFSET   D2=0.0880 A/E=1.039 D2orc=0.0885 | NB D2=0.0952 A/E=1.011 D2orc=0.0956 | P(>EM)=1.00
+   info {"DEV_freq_iters": 1424, "DEV_sev_iters": 141, "DEV_cal_freq": 1.3025, "DEV_cal_sev": 0.6251, "EM_freq_iters": 594, "EM_sev_iters": 79, "POOL_freq_iters": 1226, "POOL_sev_iters": 105, "OFFSET_freq_iters": 134, "OFFSET_sev_iters": 1}

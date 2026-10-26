@@ -1,0 +1,128 @@
+{
+  "motor": {
+    "blend": [
+      "DEV_CAL",
+      "POOL",
+      "OFFSET"
+    ],
+    "seeds": 5,
+    "trend_damp": 0.0,
+    "trend_factor": 1.0,
+    "DEV_freq_iters": 1591,
+    "DEV_sev_iters": 295,
+    "DEV_cal_freq": 1.3388,
+    "DEV_cal_sev": 0.626,
+    "POOL_freq_iters": 1392,
+    "POOL_sev_iters": 111,
+    "OFFSET_freq_iters": 111,
+    "OFFSET_sev_iters": 2,
+    "pred_cost_per_expo_2025": 552.52,
+    "pred_cpe_new_business": 590.6,
+    "pred_cpe_renewal": 426.09,
+    "hist_developed_cost_per_expo": {
+      "2023": 443.86,
+      "2024": 480.4
+    },
+    "drift_flags": {
+      "new_business": 0.607,
+      "renewal_count": 0.943,
+      "hail_days": 0.707,
+      "freezing_days": 1.111,
+      "dry_summer_index": 0.64,
+      "rainfall_mm": 0.584,
+      "mean_temperature_c": 0.881,
+      "tenure_years": 0.943,
+      "prior_exposure": 1.035
+    },
+    "exposure_issues": {
+      "train": {},
+      "test": {}
+    },
+    "n_features": 65,
+    "sanity_ok": true
+  },
+  "buildings": {
+    "blend": [
+      "DEV_CAL",
+      "POOL",
+      "OFFSET"
+    ],
+    "seeds": 5,
+    "trend_damp": 0.0,
+    "trend_factor": 1.0,
+    "DEV_freq_iters": 1069,
+    "DEV_sev_iters": 305,
+    "DEV_cal_freq": 1.0944,
+    "DEV_cal_sev": 0.9759,
+    "POOL_freq_iters": 1544,
+    "POOL_sev_iters": 166,
+    "OFFSET_freq_iters": 203,
+    "OFFSET_sev_iters": 26,
+    "pred_cost_per_expo_2025": 447.97,
+    "pred_cpe_new_business": 452.78,
+    "pred_cpe_renewal": 432.08,
+    "hist_developed_cost_per_expo": {
+      "2023": 516.17,
+      "2024": 329.69
+    },
+    "drift_flags": {
+      "new_business": 0.606,
+      "renewal_count": 0.94,
+      "hail_days": 0.709,
+      "freezing_days": 1.107,
+      "dry_summer_index": 0.627,
+      "rainfall_mm": 0.586,
+      "mean_temperature_c": 0.872,
+      "tenure_years": 0.94,
+      "prior_exposure": 1.028
+    },
+    "exposure_issues": {
+      "train": {},
+      "test": {}
+    },
+    "n_features": 58,
+    "sanity_ok": true
+  },
+  "contents": {
+    "blend": [
+      "DEV_CAL",
+      "POOL",
+      "OFFSET"
+    ],
+    "seeds": 5,
+    "trend_damp": 0.0,
+    "trend_factor": 1.0,
+    "DEV_freq_iters": 1107,
+    "DEV_sev_iters": 284,
+    "DEV_cal_freq": 0.9861,
+    "DEV_cal_sev": 0.9677,
+    "POOL_freq_iters": 743,
+    "POOL_sev_iters": 729,
+    "OFFSET_freq_iters": 62,
+    "OFFSET_sev_iters": 16,
+    "pred_cost_per_expo_2025": 91.63,
+    "pred_cpe_new_business": 91.96,
+    "pred_cpe_renewal": 90.55,
+    "hist_developed_cost_per_expo": {
+      "2023": 91.34,
+      "2024": 89.69
+    },
+    "drift_flags": {
+      "new_business": 0.608,
+      "renewal_count": 0.95,
+      "hail_days": 0.707,
+      "freezing_days": 1.098,
+      "dry_summer_index": 0.635,
+      "rainfall_mm": 0.584,
+      "mean_temperature_c": 0.873,
+      "tenure_years": 0.95,
+      "prior_exposure": 1.044
+    },
+    "exposure_issues": {
+      "train": {},
+      "test": {}
+    },
+    "n_features": 59,
+    "sanity_ok": true
+  }
+}
