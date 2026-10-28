@@ -21,7 +21,13 @@ from guardrails import drift_screen, exposure_check, leak_screen, prediction_san
 from models import SEEDS
 from p2_features import P2, dev_claims, get_frames
 from p2_models import _cols, predict_variants
+from pricing_eval import PRICE, REL, add_price
 from trend import factor as trend_factor, yearly
+
+
+def priced(df: pd.DataFrame) -> pd.DataFrame:
+    """Raw insurer pricing features (circular: they encode the current tariff - see REPORT.md)."""
+    return add_price(df).drop(columns=[c for c in REL if c not in PRICE])
 
 
 def main(a) -> None:
@@ -33,13 +39,16 @@ def main(a) -> None:
         dev = add_development(get_frames("developed", ln)[0], curves[ln])
         em, test = get_frames("emerging", ln)
         em = add_development(em, curves[ln])
-        cols = _cols(em)
+        extra = PRICE if ln in a.pricing_lines else []
+        if extra:
+            dev, em, test = priced(dev), priced(em), priced(test)
+        cols = _cols(em, extra=extra)
         expo = {"train": exposure_check(em), "test": exposure_check(test)}
         assert not expo["train"].get("above_one") and not expo["test"].get("above_one"), f"{ln}: bad exposure {expo}"
         leaks = leak_screen(em, cols)
         assert not leaks, f"{ln}: possible leak(s) {leaks}"
         drift = drift_screen(em[em["year"] == 2024], test, cols)
-        rates, info = predict_variants(dev, em, [test], 2024, variants=variants, seeds=SEEDS[: a.seeds],
+        rates, info = predict_variants(dev, em, [test], 2024, variants=variants, seeds=SEEDS[: a.seeds], extra=extra,
                                        log=lambda s: print(f"{ln} {s}", flush=True))
         rate = np.mean([rates[v][0] for v in blend], axis=0)
         # developed-market cost trend (freq + sev slope), damped, applied from the emerging experience mid-point
@@ -54,7 +63,7 @@ def main(a) -> None:
         hist = em.groupby("year").apply(lambda g: g["net_incurred"].sum() / (g["exposure"] * g["dev_f"]).sum(), include_groups=False)
         nb = test["new_business"].to_numpy().astype(bool)
         report[ln] = {
-            "blend": blend, "seeds": a.seeds, "trend_damp": a.trend, "trend_factor": round(tf, 4), **info,
+            "blend": blend, "pricing_features": bool(extra), "seeds": a.seeds, "trend_damp": a.trend, "trend_factor": round(tf, 4), **info,
             "pred_cost_per_expo_2025": round(float(pred.sum() / test["exposure"].sum()), 2),
             "pred_cpe_new_business": round(float(pred[nb].sum() / test.loc[nb, "exposure"].sum()), 2),
             "pred_cpe_renewal": round(float(pred[~nb].sum() / test.loc[~nb, "exposure"].sum()), 2),
@@ -81,5 +90,6 @@ if __name__ == "__main__":
     ap.add_argument("--blend", default="POOL,OFFSET", help="comma-separated variants averaged with equal weight")
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--trend", type=float, default=0.0, help="damping of the developed-market cost trend (0 = off)")
+    ap.add_argument("--pricing-lines", nargs="*", default=[], help="lines that also use insurer pricing features (default none)")
     ap.add_argument("--tag", default="p2")
     main(ap.parse_args())

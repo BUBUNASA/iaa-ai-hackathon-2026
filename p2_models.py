@@ -73,6 +73,8 @@ def fit_rate(kind: str, train: pd.DataFrame, cols: list[str], apply: list[pd.Dat
     prm = _params(kind)
     if rounds is None:
         vm, yv, wv = _xy(val, kind)
+        if vm.sum() == 0 or wv[vm].sum() == 0:  # e.g. a rare peril with no claims in the validation split
+            return None, 1
         dv = lgb.Dataset(X[1][vm], yv[vm], weight=wv[vm], init_score=np.log(base["val"][vm]) if base else None, reference=ds)
         mdl = lgb.train({**prm, "seed": seeds[0]}, ds, 3000, valid_sets=[dv], callbacks=[lgb.early_stopping(100, verbose=False)])
         return None, max(int(mdl.best_iteration), 1)
@@ -94,20 +96,21 @@ def two_step(kind, fit, val, full, cols, apply, seeds, base_fit=None, base_val=N
     return preds, it
 
 
-def _cols(df: pd.DataFrame, exclude=()) -> list[str]:
-    return [c for c in select_cols(df) if c not in exclude]
+def _cols(df: pd.DataFrame, exclude=(), extra=()) -> list[str]:
+    return [c for c in select_cols(df) if c not in exclude and c not in extra] + list(extra)
 
 
 def predict_variants(dev: pd.DataFrame, em: pd.DataFrame, targets: list[pd.DataFrame], cutoff: int,
-                     variants=VARIANTS, seeds=(0,), log=print) -> tuple[dict, dict]:
+                     variants=VARIANTS, seeds=(0,), log=print, extra=()) -> tuple[dict, dict]:
     """Fit every variant on developed rows (years <= cutoff) + emerging rows `em`, predict rates for `targets`.
+    `extra`: additional feature columns (e.g. pricing features) appended to every variant's feature set.
     Returns ({variant: [rate per target]}, info)."""
     dev = dev[dev["year"] <= cutoff]
     em_a, em_b = inner_split(em)
     out, info = {}, {}
 
     if {"DEV_CAL", "OFFSET"} & set(variants):
-        cols = _cols(dev, DEV_EXCLUDE)
+        cols = _cols(dev, DEV_EXCLUDE, extra)
         d_fit, d_val = dev[dev["year"] < cutoff], dev[dev["year"] == cutoff]
         apply = [em_a, em_b, em] + targets
         dv = {}
@@ -117,14 +120,15 @@ def predict_variants(dev: pd.DataFrame, em: pd.DataFrame, targets: list[pd.DataF
         # emerging actual / expected on all emerging training rows (claim count, then cost per claim; uncapped)
         e_w = (em["exposure"] * em["dev_f"]).to_numpy()
         f_freq = em["claim_count"].sum() / (dv["freq"][2] * e_w).sum()
-        f_sev = em["net_incurred"].sum() / (dv["sev"][2] * em["claim_count"].to_numpy()).sum()
+        den_sev = (dv["sev"][2] * em["claim_count"].to_numpy()).sum()
+        f_sev = em["net_incurred"].sum() / den_sev if den_sev > 0 and em["net_incurred"].sum() > 0 else 1.0
         info.update(DEV_cal_freq=round(float(f_freq), 4), DEV_cal_sev=round(float(f_sev), 4))
         cal = {"freq": [p * f_freq for p in dv["freq"]], "sev": [p * f_sev for p in dv["sev"]]}
         out["DEV_CAL"] = [cal["freq"][3 + i] * cal["sev"][3 + i] for i in range(len(targets))]
         log(f"   DEV done iters={info['DEV_freq_iters']}/{info['DEV_sev_iters']} cal freq={f_freq:.3f} sev={f_sev:.3f}")
 
     if "EM" in variants:
-        cols = _cols(em)
+        cols = _cols(em, extra=extra)
         r = {}
         for kind in ("freq", "sev"):
             r[kind], info[f"EM_{kind}_iters"] = two_step(kind, em_a, em_b, em, cols, targets, seeds)
@@ -133,7 +137,7 @@ def predict_variants(dev: pd.DataFrame, em: pd.DataFrame, targets: list[pd.DataF
 
     if "POOL" in variants:
         pool = pd.concat([dev, em], ignore_index=True)
-        cols = _cols(pool)
+        cols = _cols(pool, extra=extra)
         r = {}
         for kind in ("freq", "sev"):
             r[kind], info[f"POOL_{kind}_iters"] = two_step(kind, pd.concat([dev, em_a], ignore_index=True), em_b, pool,
@@ -142,7 +146,7 @@ def predict_variants(dev: pd.DataFrame, em: pd.DataFrame, targets: list[pd.DataF
         log(f"   POOL done iters={info['POOL_freq_iters']}/{info['POOL_sev_iters']}")
 
     if "OFFSET" in variants:
-        cols = _cols(em)
+        cols = _cols(em, extra=extra)
         r = {}
         for kind in ("freq", "sev"):
             b = cal[kind]
