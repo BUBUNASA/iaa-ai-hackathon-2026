@@ -1,13 +1,14 @@
 # Risk-premium models for a developed and an emerging market: leak-free, claim-developed, transferred with evidence
 
-**Team:** _[team name / members]_  **Competition:** IAA AI-Assisted Hackathon 2026, Parts 1 and 2  **Repo:** this repository (`README.md` to reproduce)
+**Team:** NazaliBupa  **Competition:** IAA AI-Assisted Hackathon 2026, Parts 1 and 2  **Repo:** this repository (`README.md` to reproduce)
 
 | Leaderboard (Tweedie D2, higher is better) | v1 baseline | v2 claim development | v3 freq x sev | v4 cost trend | v5 per-peril | v6 pricing features |
 |---|---|---|---|---|---|---|
 | Part 1 public | 0.0859 | 0.0955 | 0.1039 | 0.1119 | 0.1130 | **0.1147** |
 | Part 1 private (final, 67% of test) | 0.1025 | 0.1101 | 0.1160 | 0.1226 | **0.1265** | 0.1260 (selected; rank 43) |
 
-Part 2 (emerging market): developed-market structure transferred and recalibrated, public **0.1561** (rank 13 of 18 at submission).
+Part 2 (emerging market): developed-market structure transferred and recalibrated, public **0.1561** (v1, no tariff inputs; rank 13 of 18 at submission);
+v2 adds the current tariff (written premium, discount, premium rate) for motor and buildings only, public **0.1561** (0.15611 vs 0.15609).
 
 ## 1. Problem and approach in one paragraph
 For each 2025 policy row we predict expected ultimate claim cost (net of excess and recoveries, repudiated excluded), i.e. the risk premium,

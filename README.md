@@ -5,7 +5,8 @@ Predicts the expected ultimate claim cost of every 2025 motor, buildings and con
 **Part 1 - developed market** (final, private leaderboard = 67% of test): v1 0.1025 -> v2 claim development 0.1101 -> v3 freq x sev 0.1160 ->
 v4 cost trend 0.1226 -> v5 per-peril 0.1265 -> v6 pricing features 0.1260 (selected; rank 43). Public scores: 0.0859 / 0.0955 / 0.1039 / 0.1119 / 0.1130 / 0.1147.
 
-**Part 2 - emerging market**: p2 v1 (developed-market structure transferred and recalibrated) public 0.1561 (rank 13 / 18 at submission). See `REPORT.md`.
+**Part 2 - emerging market**: p2 v1 (developed-market structure transferred and recalibrated) public 0.15609 (rank 13 / 18 at submission);
+p2 v2 (+ current-tariff pricing features for motor and buildings) public 0.15611. See `REPORT.md`.
 
 ## Part 1 (developed market) approach
 | Step | What | Why (evidence) |
