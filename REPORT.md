@@ -7,8 +7,9 @@
 | Part 1 public | 0.0859 | 0.0955 | 0.1039 | 0.1119 | 0.1130 | **0.1147** |
 | Part 1 private (final, 67% of test) | 0.1025 | 0.1101 | 0.1160 | 0.1226 | **0.1265** | 0.1260 (selected; rank 43) |
 
-Part 2 (emerging market): developed-market structure transferred and recalibrated, public **0.1561** (v1, no tariff inputs; rank 13 of 18 at submission);
-v2 adds the current tariff (written premium, discount, premium rate) for motor and buildings only, public **0.1561** (0.15611 vs 0.15609).
+Part 2 (emerging market, final private leaderboard, 67% of test): **rank 6 of 40** (up 18 places from the public board) with v2, private **0.1369**
+(winner 0.1384). v1, developed-market structure transferred and recalibrated with no tariff inputs: private 0.1362 (public 0.15609).
+v2 adds the current tariff (written premium, discount, premium rate) for motor and buildings only: private 0.1369 (public 0.15611).
 
 ## 1. Problem and approach in one paragraph
 For each 2025 policy row we predict expected ultimate claim cost (net of excess and recoveries, repudiated excluded), i.e. the risk premium,
@@ -101,7 +102,7 @@ different winner per line on noisy evidence. (Motor's low group-holdout D2 is on
 
 Splitting the data finer (per peril) helped in the data-rich market and hurt in the thin one - the clearest example of the method changing with the market.
 
-**Two submissions, by design** (`p2_final.py`). v1 uses no tariff inputs (public 0.15609); v2 adds the pricing features for motor and buildings (public 0.15611).
+**Two submissions, by design** (`p2_final.py`). v1 uses no tariff inputs (private 0.1362); v2 adds the pricing features for motor and buildings (private 0.1369, rank 6).
 v2 predicts 2025 claims slightly better on our holdouts, but it learns partly from the current tariff, which section 7 shows is 2-4x below technical. A repricing
 built on v2 would be anchored to the price it is replacing, so **v1 is our recommended model for pricing decisions** and v2 a forecasting benchmark.
 v1 predicts 2025 cost per year of exposure of motor 553 (new business 591, renewals 426), buildings 448 and contents 92, against emerging developed history of
