@@ -19,7 +19,7 @@ have claimed, so that field is the answer, not a predictor. We removed it and ad
 
 **[Screen]** Histogram of `exposure`: spike at 365
 
-The second trap was quieter. About 0.4% of policies recorded their length in days - 365 instead of 1 year - adding a quarter of phantom cover.
+The second trap was quieter. About 0.4% of policies recorded their length in days - 365 instead of 1 year - adding about a third more cover than really existed.
 We found it by asking why a gain on our holdouts did not show up on the leaderboard. Exposure is now rebuilt from the policy dates,
 and a guardrail blocks any submission if it happens again. The same error was in the Part 2 data and was caught on the first load.
 
@@ -59,11 +59,12 @@ We recommend version 1 for pricing decisions.
 **[Screen]** AI contribution vs human review table
 
 AI wrote the analysis, the models, the guardrails and 31 automated tests, and it traced the exposure error. Every decision was backed by a result
-file a person reviewed. Three of the AI's own ideas looked convincing and failed validation, and we dropped them. When AI-written tests were wrong,
+file a person reviewed. Three of the AI's own ideas looked convincing until they were validated, and we cut them back or dropped them. When AI-written tests were wrong,
 we fixed them on evidence rather than loosening them to pass.
 
 ## 4:40-5:00 Limits and close
-**[Screen]** Limitations list; repo link
+**[Screen]** Results and limitations; repo link
 
-The biggest uncertainties are the new market's buildings level, driven by a few fires, and a book that is three quarters new customers.
-Everything is in the repository and reproducible from one command list. Thank you.
+In the new market we finished sixth of forty, rising eighteen places when the hidden test data was revealed - evidence that testing on two holdouts
+rather than the public leaderboard paid off. The biggest uncertainties are the new market's buildings level, driven by a few fires, and a book that is
+three quarters new customers. Everything is in the repository and reproducible from one command list. Thank you.
